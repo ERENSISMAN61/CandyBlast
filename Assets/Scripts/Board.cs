@@ -354,6 +354,10 @@ public class Board : MonoBehaviour
                 {
                     allBlocks.Add(block);
                     allPositions.Add(pos);
+                    
+                    // Reset to default icon before shuffle
+                    Sprite defaultSprite = spriteManager.GetDefaultSprite(block.BlockType);
+                    block.UpdateIcon(1, IconVariant.Default, defaultSprite);
                 }
             }
         }
@@ -400,8 +404,14 @@ public class Board : MonoBehaviour
 
     private IEnumerator FinishShuffle()
     {
-        yield return new WaitForSeconds(0.5f);
+        // Wait for blocks to finish moving
+        yield return new WaitForSeconds(0.8f);
+        
+        // Update all icons based on new groups
         UpdateAllIcons();
+        
+        Debug.Log("Shuffle complete - Icons updated");
+        
         IsAnimating = false;
         OnBoardStable?.Invoke();
     }

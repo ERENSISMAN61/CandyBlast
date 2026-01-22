@@ -819,8 +819,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc56aa1b5c4281408591e64670674e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 10
-  columns: 10
+  rows: 4
+  columns: 3
   colorCount: 6
   thresholdA: 4
   thresholdB: 7

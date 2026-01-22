@@ -127,12 +127,14 @@ public class GroupDetector
 
     /// <summary>
     /// Update icon variants for all blocks in groups
-    /// Performance: Only updates blocks that are part of groups
+    /// Performance: Updates all blocks - groups get special icons, singles get default
     /// </summary>
     public void UpdateAllGroupIcons(int thresholdA, int thresholdB, int thresholdC, SpriteManager spriteManager)
     {
         var allGroups = FindAllGroups();
+        var processedBlocks = new HashSet<Vector2Int>();
 
+        // Update blocks that are in groups
         foreach (var groupSizePair in allGroups)
         {
             int groupSize = groupSizePair.Key;
@@ -147,6 +149,26 @@ public class GroupDetector
                     {
                         Sprite newSprite = spriteManager.GetSprite(block.BlockType, variant);
                         block.UpdateIcon(groupSize, variant, newSprite);
+                        processedBlocks.Add(pos);
+                    }
+                }
+            }
+        }
+
+        // Reset single blocks (not in any group) to default icon
+        for (int x = 0; x < board.Columns; x++)
+        {
+            for (int y = 0; y < board.Rows; y++)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+                
+                if (!processedBlocks.Contains(pos))
+                {
+                    Block block = board.GetBlock(pos);
+                    if (block != null)
+                    {
+                        Sprite defaultSprite = spriteManager.GetDefaultSprite(block.BlockType);
+                        block.UpdateIcon(1, IconVariant.Default, defaultSprite);
                     }
                 }
             }

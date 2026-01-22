@@ -21,7 +21,13 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (board == null || board.IsAnimating || isProcessingInput)
+        if (board == null)
+        {
+            Debug.LogWarning("Board reference missing in InputManager!");
+            return;
+        }
+        
+        if (board.IsAnimating || isProcessingInput)
             return;
 
         HandleInput();
