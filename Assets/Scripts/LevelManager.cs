@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
 
     [Title("Level Configuration")]
-    [InfoBox("Example 1: M=10, N=12, K=6, A=4, B=7, C=9\n" +
+    [InfoBox("Example 1: M=10, N=10, K=6, A=4, B=7, C=9\n" +
              "Example 2: M=5, N=8, K=4, A=4, B=6, C=8")]
 
     [BoxGroup("Grid Settings")]
@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
 
     [BoxGroup("Grid Settings")]
     [SerializeField, Range(2, 10), LabelText("N (Columns)")]
-    private int columns = 12;
+    private int columns = 10;
 
     [BoxGroup("Grid Settings")]
     [SerializeField, Range(1, 6), LabelText("K (Color Count)")]
@@ -177,11 +177,11 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Load a preset example configuration
     /// </summary>
-    [Button("Load Example 1 (10x12, 6 colors)")]
+    [Button("Load Example 1 (10x10, 6 colors)")]
     private void LoadExample1()
     {
         rows = 10;
-        columns = 12;
+        columns = 10;
         colorCount = 6;
         thresholdA = 4;
         thresholdB = 7;
