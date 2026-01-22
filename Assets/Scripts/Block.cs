@@ -33,6 +33,20 @@ public class Block : MonoBehaviour
     }
 
     /// <summary>
+    /// Update sorting order based on grid position
+    /// Higher Y = Higher sorting order (drawn on top)
+    /// Performance: Only changes render order, not transform
+    /// </summary>
+    private void UpdateSortingOrder()
+    {
+        if (spriteRenderer != null)
+        {
+            // Y càng cao, sorting order càng yüksek (üstteki bloklar önde)
+            spriteRenderer.sortingOrder = GridPosition.y;
+        }
+    }
+
+    /// <summary>
     /// Initialize block with type and sprite
     /// </summary>
     public void Initialize(BlockType type, Sprite sprite, Vector2Int gridPos)
@@ -44,6 +58,9 @@ public class Block : MonoBehaviour
 
         if (spriteRenderer != null)
             spriteRenderer.sprite = sprite;
+
+        // Set sorting order based on grid position
+        UpdateSortingOrder();
 
         transform.localScale = Vector3.zero;
         transform.DOScale(Vector3.one, scaleDuration).SetEase(Ease.OutBack);
@@ -78,6 +95,9 @@ public class Block : MonoBehaviour
     {
         GridPosition = newGridPos;
         IsMoving = true;
+
+        // Update sorting order for new position
+        UpdateSortingOrder();
 
         moveTween?.Kill();
         moveTween = transform.DOMove(worldPos, moveDuration)
