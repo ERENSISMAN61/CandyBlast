@@ -76,9 +76,7 @@ public class GameUI : MonoBehaviour
 
         if (groupInfoText != null && levelManager != null)
         {
-            groupInfoText.text = $"Level: {levelManager.Rows}x{levelManager.Columns}\n" +
-                               $"Colors: {levelManager.ColorCount}\n" +
-                               $"A:{levelManager.ThresholdA} B:{levelManager.ThresholdB} C:{levelManager.ThresholdC}";
+            groupInfoText.text = $"Level {levelManager.CurrentLevelIndex + 1}";
         }
     }
 
