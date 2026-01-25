@@ -332,8 +332,12 @@ public class Board : MonoBehaviour
     }
 
     /// <summary>
-    /// Smart shuffle algorithm
-    /// Ensures at least one valid group exists after shuffle
+    /// Smart shuffle algorithm with guaranteed valid group
+    /// Uses deterministic approach - no blind retry loops
+    /// Algorithm:
+    /// 1. Shuffle all blocks randomly (Fisher-Yates)
+    /// 2. Place blocks on grid
+    /// 3. If no valid groups exist, force create one by strategic swap
     /// </summary>
     public void ShuffleBoard()
     {
@@ -354,7 +358,7 @@ public class Board : MonoBehaviour
                 {
                     allBlocks.Add(block);
                     allPositions.Add(pos);
-                    
+
                     // Reset to default icon before shuffle
                     Sprite defaultSprite = spriteManager.GetDefaultSprite(block.BlockType);
                     block.UpdateIcon(1, IconVariant.Default, defaultSprite);
@@ -362,56 +366,152 @@ public class Board : MonoBehaviour
             }
         }
 
-        // Shuffle until we have at least one valid group
-        int attempts = 0;
-        int maxAttempts = 100;
-
-        do
+        // Fisher-Yates shuffle - single pass, O(n)
+        for (int i = allBlocks.Count - 1; i > 0; i--)
         {
-            // Fisher-Yates shuffle
-            for (int i = allBlocks.Count - 1; i > 0; i--)
-            {
-                int j = Random.Range(0, i + 1);
-                Block temp = allBlocks[i];
-                allBlocks[i] = allBlocks[j];
-                allBlocks[j] = temp;
-            }
+            int j = Random.Range(0, i + 1);
+            Block temp = allBlocks[i];
+            allBlocks[i] = allBlocks[j];
+            allBlocks[j] = temp;
+        }
 
-            // Place blocks in shuffled positions
-            for (int i = 0; i < allBlocks.Count; i++)
-            {
-                Vector2Int pos = allPositions[i];
-                Block block = allBlocks[i];
-
-                grid[pos.x, pos.y] = block;
-                block.GridPosition = pos;
-
-                Vector3 worldPos = GridToWorldPosition(pos);
-                block.MoveTo(pos, worldPos);
-            }
-
-            attempts++;
-
-        } while (!groupDetector.HasAnyValidGroups() && attempts < maxAttempts);
-
-        if (attempts >= maxAttempts)
+        // Place blocks in shuffled positions
+        for (int i = 0; i < allBlocks.Count; i++)
         {
-            Debug.LogWarning("Could not find valid shuffle after " + maxAttempts + " attempts");
+            Vector2Int pos = allPositions[i];
+            Block block = allBlocks[i];
+
+            grid[pos.x, pos.y] = block;
+            block.GridPosition = pos;
+
+            Vector3 worldPos = GridToWorldPosition(pos);
+            block.MoveTo(pos, worldPos);
+        }
+
+        // Guarantee at least one valid group exists
+        if (!groupDetector.HasAnyValidGroups())
+        {
+            ForceCreateValidGroup();
+            Debug.Log("Forced valid group creation after shuffle");
         }
 
         StartCoroutine(FinishShuffle());
+    }
+
+    /// <summary>
+    /// Deterministically creates at least one valid group on the board
+    /// Strategy: Find blocks of same color and swap them to be adjacent
+    /// This guarantees a solvable board without random retries
+    /// </summary>
+    private void ForceCreateValidGroup()
+    {
+        // Group blocks by type
+        Dictionary<BlockType, List<Vector2Int>> blocksByType = new Dictionary<BlockType, List<Vector2Int>>();
+
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+                Block block = GetBlock(pos);
+
+                if (block != null)
+                {
+                    if (!blocksByType.ContainsKey(block.BlockType))
+                        blocksByType[block.BlockType] = new List<Vector2Int>();
+
+                    blocksByType[block.BlockType].Add(pos);
+                }
+            }
+        }
+
+        // Find a color with at least 2 blocks
+        foreach (var kvp in blocksByType)
+        {
+            if (kvp.Value.Count >= 2)
+            {
+                // Get two positions of this color
+                Vector2Int pos1 = kvp.Value[0];
+                Vector2Int pos2 = kvp.Value[1];
+
+                // Find two adjacent positions on the board
+                Vector2Int adjacentPos1 = Vector2Int.zero;
+                Vector2Int adjacentPos2 = Vector2Int.zero;
+                bool foundAdjacent = false;
+
+                // Try to find horizontal adjacency
+                for (int y = 0; y < rows && !foundAdjacent; y++)
+                {
+                    for (int x = 0; x < columns - 1 && !foundAdjacent; x++)
+                    {
+                        adjacentPos1 = new Vector2Int(x, y);
+                        adjacentPos2 = new Vector2Int(x + 1, y);
+                        foundAdjacent = true;
+                    }
+                }
+
+                // If no horizontal found, try vertical
+                if (!foundAdjacent)
+                {
+                    for (int x = 0; x < columns && !foundAdjacent; x++)
+                    {
+                        for (int y = 0; y < rows - 1 && !foundAdjacent; y++)
+                        {
+                            adjacentPos1 = new Vector2Int(x, y);
+                            adjacentPos2 = new Vector2Int(x, y + 1);
+                            foundAdjacent = true;
+                        }
+                    }
+                }
+
+                if (foundAdjacent)
+                {
+                    // Swap blocks to create adjacent group
+                    Block block1 = GetBlock(pos1);
+                    Block block2 = GetBlock(pos2);
+                    Block targetBlock1 = GetBlock(adjacentPos1);
+                    Block targetBlock2 = GetBlock(adjacentPos2);
+
+                    // Swap in grid
+                    grid[pos1.x, pos1.y] = targetBlock1;
+                    grid[pos2.x, pos2.y] = targetBlock2;
+                    grid[adjacentPos1.x, adjacentPos1.y] = block1;
+                    grid[adjacentPos2.x, adjacentPos2.y] = block2;
+
+                    // Update block positions and move them
+                    if (targetBlock1 != null)
+                    {
+                        targetBlock1.GridPosition = pos1;
+                        targetBlock1.MoveTo(pos1, GridToWorldPosition(pos1));
+                    }
+                    if (targetBlock2 != null)
+                    {
+                        targetBlock2.GridPosition = pos2;
+                        targetBlock2.MoveTo(pos2, GridToWorldPosition(pos2));
+                    }
+
+                    block1.GridPosition = adjacentPos1;
+                    block1.MoveTo(adjacentPos1, GridToWorldPosition(adjacentPos1));
+
+                    block2.GridPosition = adjacentPos2;
+                    block2.MoveTo(adjacentPos2, GridToWorldPosition(adjacentPos2));
+
+                    return; // Successfully created a valid group
+                }
+            }
+        }
     }
 
     private IEnumerator FinishShuffle()
     {
         // Wait for blocks to finish moving
         yield return new WaitForSeconds(0.8f);
-        
+
         // Update all icons based on new groups
         UpdateAllIcons();
-        
+
         Debug.Log("Shuffle complete - Icons updated");
-        
+
         IsAnimating = false;
         OnBoardStable?.Invoke();
     }
