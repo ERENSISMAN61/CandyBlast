@@ -1,0 +1,1001 @@
+fileFormatVersion: 2
+guid: 527053b732fc0a6478357522bde515f7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3263439046166796739
+    second: logo_candy_blast_2_0
+  - first:
+      213: -8059357504970344463
+    second: logo_candy_blast_2_1
+  - first:
+      213: -6700905043387371399
+    second: logo_candy_blast_2_2
+  - first:
+      213: -8023749658966295608
+    second: logo_candy_blast_2_3
+  - first:
+      213: 7582847997441083396
+    second: logo_candy_blast_2_4
+  - first:
+      213: 180268582902555107
+    second: logo_candy_blast_2_5
+  - first:
+      213: 1329012146245006244
+    second: logo_candy_blast_2_6
+  - first:
+      213: -2181196862744019947
+    second: logo_candy_blast_2_7
+  - first:
+      213: 3935553990833702699
+    second: logo_candy_blast_2_8
+  - first:
+      213: 3672533764214023816
+    second: logo_candy_blast_2_9
+  - first:
+      213: 2475669235881092497
+    second: logo_candy_blast_2_10
+  - first:
+      213: 7167015289944358805
+    second: logo_candy_blast_2_11
+  - first:
+      213: -6923907717566516675
+    second: logo_candy_blast_2_12
+  - first:
+      213: -7780188374407158626
+    second: logo_candy_blast_2_13
+  - first:
+      213: -2366351756459824814
+    second: logo_candy_blast_2_14
+  - first:
+      213: 6075006320358078106
+    second: logo_candy_blast_2_15
+  - first:
+      213: -4636722367516004153
+    second: logo_candy_blast_2_16
+  - first:
+      213: -8665422355683912546
+    second: logo_candy_blast_2_17
+  - first:
+      213: -3905835995953368905
+    second: logo_candy_blast_2_18
+  - first:
+      213: -902021780556071478
+    second: logo_candy_blast_2_19
+  - first:
+      213: 5490387570174186789
+    second: logo_candy_blast_2_20
+  - first:
+      213: 5975855286745982934
+    second: logo_candy_blast_2_21
+  - first:
+      213: -4244661125174429302
+    second: logo_candy_blast_2_22
+  - first:
+      213: -8180061650516086648
+    second: logo_candy_blast_2_23
+  - first:
+      213: -2531175971074159358
+    second: logo_candy_blast_2_24
+  - first:
+      213: -7417121317153800634
+    second: logo_candy_blast_2_25
+  - first:
+      213: -6551985266802766583
+    second: logo_candy_blast_2_26
+  - first:
+      213: -845619997221836051
+    second: logo_candy_blast_2_27
+  - first:
+      213: -2839344798016708644
+    second: logo_candy_blast_2_28
+  - first:
+      213: -5677988568352905708
+    second: logo_candy_blast_2_29
+  - first:
+      213: -739524689845747576
+    second: logo_candy_blast_2_30
+  - first:
+      213: -4808577435920522275
+    second: logo_candy_blast_2_31
+  - first:
+      213: -4160768668462134094
+    second: logo_candy_blast_2_32
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: logo_candy_blast_2_0
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 926
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c959e4a5801a4d20800000000000000
+      internalID: 3263439046166796739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_1
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 888
+        width: 67
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f73d5eac09672090800000000000000
+      internalID: -8059357504970344463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_2
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 856
+        width: 77
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 970b54fad5a9103a0800000000000000
+      internalID: -6700905043387371399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_3
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 951
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cbf6a2623ae5a090800000000000000
+      internalID: -8023749658966295608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_4
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 931
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4080249f310bb3960800000000000000
+      internalID: 7582847997441083396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_5
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 884
+        width: 31
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e1e1103251708200800000000000000
+      internalID: 180268582902555107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_6
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 917
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a3fc1f6189917210800000000000000
+      internalID: 1329012146245006244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_7
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 853
+        width: 21
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51c32f28205dab1e0800000000000000
+      internalID: -2181196862744019947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_8
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 853
+        width: 45
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b278302d085ed9630800000000000000
+      internalID: 3935553990833702699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_9
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 903
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 886ea99200677f230800000000000000
+      internalID: 3672533764214023816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_10
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 877
+        width: 31
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1952e0aad085b5220800000000000000
+      internalID: 2475669235881092497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_11
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 895
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59f3de80f6a567360800000000000000
+      internalID: 7167015289944358805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_12
+      rect:
+        serializedVersion: 2
+        x: 694
+        y: 877
+        width: 13
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d32bcd48d9659ef90800000000000000
+      internalID: -6923907717566516675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_13
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 847
+        width: 30
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9466d905e7370490800000000000000
+      internalID: -7780188374407158626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_14
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 873
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 259279e6d97092fd0800000000000000
+      internalID: -2366351756459824814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_15
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 871
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a963235cf02ce4450800000000000000
+      internalID: 6075006320358078106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_16
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 849
+        width: 27
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c0b91ab29d07afb0800000000000000
+      internalID: -4636722367516004153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_17
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 873
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e945bb4674c3eb780800000000000000
+      internalID: -8665422355683912546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_18
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 855
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b0f34e0bdeabc9c0800000000000000
+      internalID: -3905835995953368905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_19
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 850
+        width: 42
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acd3a4e38ff5b73f0800000000000000
+      internalID: -902021780556071478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_20
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 847
+        width: 28
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 525d37fd766c13c40800000000000000
+      internalID: 5490387570174186789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 57
+        width: 1020
+        height: 797
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d762abc8b08ee250800000000000000
+      internalID: 5975855286745982934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_22
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 848
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a897112223fe715c0800000000000000
+      internalID: -4244661125174429302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_23
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 846
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8807138c4459a7e80800000000000000
+      internalID: -8180061650516086648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_24
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 828
+        width: 26
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20dce147dd47fdcd0800000000000000
+      internalID: -2531175971074159358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_25
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 848
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64ef11ba577111990800000000000000
+      internalID: -7417121317153800634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_26
+      rect:
+        serializedVersion: 2
+        x: 697
+        y: 832
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90dc0ae1d1ca215a0800000000000000
+      internalID: -6551985266802766583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_27
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 805
+        width: 35
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dea20a2c711c344f0800000000000000
+      internalID: -845619997221836051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_28
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 827
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdf5c5f13fe9898d0800000000000000
+      internalID: -2839344798016708644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_29
+      rect:
+        serializedVersion: 2
+        x: 982
+        y: 509
+        width: 23
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 416a898fa7bb331b0800000000000000
+      internalID: -5677988568352905708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_30
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 322
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8800d17763eacb5f0800000000000000
+      internalID: -739524689845747576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_31
+      rect:
+        serializedVersion: 2
+        x: 697
+        y: 313
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd3aff88c40844db0800000000000000
+      internalID: -4808577435920522275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_candy_blast_2_32
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 321
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bc4db3d0faf146c0800000000000000
+      internalID: -4160768668462134094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      logo_candy_blast_2_0: 3263439046166796739
+      logo_candy_blast_2_1: -8059357504970344463
+      logo_candy_blast_2_10: 2475669235881092497
+      logo_candy_blast_2_11: 7167015289944358805
+      logo_candy_blast_2_12: -6923907717566516675
+      logo_candy_blast_2_13: -7780188374407158626
+      logo_candy_blast_2_14: -2366351756459824814
+      logo_candy_blast_2_15: 6075006320358078106
+      logo_candy_blast_2_16: -4636722367516004153
+      logo_candy_blast_2_17: -8665422355683912546
+      logo_candy_blast_2_18: -3905835995953368905
+      logo_candy_blast_2_19: -902021780556071478
+      logo_candy_blast_2_2: -6700905043387371399
+      logo_candy_blast_2_20: 5490387570174186789
+      logo_candy_blast_2_21: 5975855286745982934
+      logo_candy_blast_2_22: -4244661125174429302
+      logo_candy_blast_2_23: -8180061650516086648
+      logo_candy_blast_2_24: -2531175971074159358
+      logo_candy_blast_2_25: -7417121317153800634
+      logo_candy_blast_2_26: -6551985266802766583
+      logo_candy_blast_2_27: -845619997221836051
+      logo_candy_blast_2_28: -2839344798016708644
+      logo_candy_blast_2_29: -5677988568352905708
+      logo_candy_blast_2_3: -8023749658966295608
+      logo_candy_blast_2_30: -739524689845747576
+      logo_candy_blast_2_31: -4808577435920522275
+      logo_candy_blast_2_32: -4160768668462134094
+      logo_candy_blast_2_4: 7582847997441083396
+      logo_candy_blast_2_5: 180268582902555107
+      logo_candy_blast_2_6: 1329012146245006244
+      logo_candy_blast_2_7: -2181196862744019947
+      logo_candy_blast_2_8: 3935553990833702699
+      logo_candy_blast_2_9: 3672533764214023816
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
