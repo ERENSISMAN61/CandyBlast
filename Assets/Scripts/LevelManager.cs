@@ -10,46 +10,53 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
 
     [Title("Level Configuration")]
-    [InfoBox("Example 1: M=10, N=10, K=6, A=4, B=7, C=9\n" +
-             "Example 2: M=5, N=8, K=4, A=4, B=6, C=8")]
+    [InfoBox("Use LevelData ScriptableObjects to configure levels\nLeave empty to use manual settings below")]
 
-    [BoxGroup("Grid Settings")]
+    [BoxGroup("Level Data")]
+    [SerializeField, LabelText("Current Level Data")]
+    [InlineEditor(InlineEditorModes.GUIOnly)]
+    private LevelData currentLevelData;
+
+    [BoxGroup("Level Data")]
+    [SerializeField, LabelText("All Levels")]
+    [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "LevelName")]
+    private LevelData[] allLevels;
+
+    [BoxGroup("Level Data")]
+    [SerializeField, LabelText("Starting Level Index")]
+    private int startingLevelIndex = 0;
+
+    [Title("Manual Configuration (if no LevelData)")]
+    [InfoBox("These settings are used only if currentLevelData is null")]
+    [FoldoutGroup("Manual Settings")]
     [SerializeField, Range(2, 10), LabelText("M (Rows)")]
     private int rows = 10;
 
-    [BoxGroup("Grid Settings")]
+    [FoldoutGroup("Manual Settings")]
     [SerializeField, Range(2, 10), LabelText("N (Columns)")]
     private int columns = 10;
 
-    [BoxGroup("Grid Settings")]
+    [FoldoutGroup("Manual Settings")]
     [SerializeField, Range(1, 6), LabelText("K (Color Count)")]
     private int colorCount = 6;
 
-    [Title("Icon Thresholds")]
-    [InfoBox("A < B < C\n" +
-             "Default: group size ≤ A\n" +
-             "Icon A: A < group size ≤ B\n" +
-             "Icon B: B < group size ≤ C\n" +
-             "Icon C: group size > C")]
-
-    [BoxGroup("Thresholds")]
+    [FoldoutGroup("Manual Settings")]
     [SerializeField, Range(2, 20), LabelText("A (First Threshold)")]
     private int thresholdA = 4;
 
-    [BoxGroup("Thresholds")]
+    [FoldoutGroup("Manual Settings")]
     [SerializeField, Range(2, 20), LabelText("B (Second Threshold)")]
     private int thresholdB = 7;
 
-    [BoxGroup("Thresholds")]
+    [FoldoutGroup("Manual Settings")]
     [SerializeField, Range(2, 20), LabelText("C (Third Threshold)")]
     private int thresholdC = 9;
 
-    [Title("Game Rules")]
-    [BoxGroup("Rules")]
+    [FoldoutGroup("Manual Settings")]
     [SerializeField, LabelText("Min Group Size")]
     private int minGroupSize = 2;
 
-    [BoxGroup("Rules")]
+    [FoldoutGroup("Manual Settings")]
     [SerializeField, LabelText("Auto Shuffle On Deadlock")]
     private bool autoShuffleOnDeadlock = true;
 
@@ -57,19 +64,33 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Board board;
 
     // Properties
-    public int Rows => rows;
-    public int Columns => columns;
-    public int ColorCount => colorCount;
-    public int ThresholdA => thresholdA;
-    public int ThresholdB => thresholdB;
-    public int ThresholdC => thresholdC;
-    public int MinGroupSize => minGroupSize;
+    public int Rows => GetCurrentRows();
+    public int Columns => GetCurrentColumns();
+    public int ColorCount => GetCurrentColorCount();
+    public int ThresholdA => GetCurrentThresholdA();
+    public int ThresholdB => GetCurrentThresholdB();
+    public int ThresholdC => GetCurrentThresholdC();
+    public int MinGroupSize => GetCurrentMinGroupSize();
+    public LevelData CurrentLevel => currentLevelData;
+    public int CurrentLevelIndex { get; private set; }
 
     // Game stats
     [Title("Game Stats"), ReadOnly]
     [ShowInInspector] private int totalMoves = 0;
     [ShowInInspector] private int totalBlocksBlasted = 0;
     [ShowInInspector] private int score = 0;
+    [ShowInInspector] private float elapsedTime = 0f;
+    [ShowInInspector] private string currentLevelName = "No Level";
+
+    // Helper methods to get current level data
+    private int GetCurrentRows() => currentLevelData != null ? currentLevelData.Rows : rows;
+    private int GetCurrentColumns() => currentLevelData != null ? currentLevelData.Columns : columns;
+    private int GetCurrentColorCount() => currentLevelData != null ? currentLevelData.ColorCount : colorCount;
+    private int GetCurrentThresholdA() => currentLevelData != null ? currentLevelData.ThresholdA : thresholdA;
+    private int GetCurrentThresholdB() => currentLevelData != null ? currentLevelData.ThresholdB : thresholdB;
+    private int GetCurrentThresholdC() => currentLevelData != null ? currentLevelData.ThresholdC : thresholdC;
+    private int GetCurrentMinGroupSize() => currentLevelData != null ? currentLevelData.MinGroupSize : minGroupSize;
+    private bool GetCurrentAutoShuffle() => currentLevelData != null ? currentLevelData.AutoShuffleOnDeadlock : autoShuffleOnDeadlock;
 
     private void Awake()
     {
@@ -89,13 +110,21 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeLevel();
+        // Load starting level if available
+        if (allLevels != null && allLevels.Length > 0 && startingLevelIndex < allLevels.Length)
+        {
+            LoadLevel(startingLevelIndex);
+        }
+        else
+        {
+            InitializeLevel();
+        }
     }
 
     /// <summary>
     /// Initialize level with current parameters
     /// </summary>
-    [Button("Initialize Level", ButtonSizes.Large)]
+    [Button("Initialize Current Level", ButtonSizes.Large)]
     private void InitializeLevel()
     {
         if (board == null)
@@ -108,11 +137,19 @@ public class LevelManager : MonoBehaviour
         totalMoves = 0;
         totalBlocksBlasted = 0;
         score = 0;
+        elapsedTime = 0f;
 
-        // Configure board
-        board.SetBoardParameters(rows, columns, colorCount);
+        // Update current level name
+        currentLevelName = currentLevelData != null ? currentLevelData.LevelName : "Manual Config";
+
+        // Configure board with current settings
+        board.SetBoardParameters(GetCurrentRows(), GetCurrentColumns(), GetCurrentColorCount());
 
         // Subscribe to board events
+        board.OnBlocksBlasted -= OnBlocksBlasted; // Unsubscribe first to avoid duplicates
+        board.OnDeadlock -= OnDeadlock;
+        board.OnBoardStable -= OnBoardStable;
+
         board.OnBlocksBlasted += OnBlocksBlasted;
         board.OnDeadlock += OnDeadlock;
         board.OnBoardStable += OnBoardStable;
@@ -120,7 +157,49 @@ public class LevelManager : MonoBehaviour
         // Initialize board
         board.InitializeBoard();
 
-        Debug.Log($"Level initialized: {rows}x{columns} grid, {colorCount} colors, Thresholds: A={thresholdA}, B={thresholdB}, C={thresholdC}");
+        string levelInfo = currentLevelData != null ? currentLevelData.GetLevelSummary() : "Manual Configuration";
+        Debug.Log($"Level initialized: {levelInfo}");
+    }
+
+    /// <summary>
+    /// Load a specific level by index
+    /// </summary>
+    public void LoadLevel(int levelIndex)
+    {
+        if (allLevels == null || levelIndex < 0 || levelIndex >= allLevels.Length)
+        {
+            Debug.LogError($"Invalid level index: {levelIndex}");
+            return;
+        }
+
+        currentLevelData = allLevels[levelIndex];
+        CurrentLevelIndex = levelIndex;
+        InitializeLevel();
+    }
+
+    /// <summary>
+    /// Load next level
+    /// </summary>
+    [Button("Load Next Level", ButtonSizes.Medium)]
+    public void LoadNextLevel()
+    {
+        if (allLevels == null || allLevels.Length == 0)
+        {
+            Debug.LogWarning("No levels available!");
+            return;
+        }
+
+        int nextIndex = (CurrentLevelIndex + 1) % allLevels.Length;
+        LoadLevel(nextIndex);
+    }
+
+    /// <summary>
+    /// Restart current level
+    /// </summary>
+    [Button("Restart Level", ButtonSizes.Medium)]
+    public void RestartLevel()
+    {
+        InitializeLevel();
     }
 
     /// <summary>
@@ -167,10 +246,19 @@ public class LevelManager : MonoBehaviour
     {
         Debug.LogWarning("Deadlock detected! No valid moves available.");
 
-        if (autoShuffleOnDeadlock)
+        if (GetCurrentAutoShuffle())
         {
             Debug.Log("Auto-shuffling board...");
             board.ShuffleBoard();
+        }
+    }
+
+    private void Update()
+    {
+        // Track elapsed time
+        if (board != null && !board.IsAnimating)
+        {
+            elapsedTime += Time.deltaTime;
         }
     }
 
@@ -178,8 +266,10 @@ public class LevelManager : MonoBehaviour
     /// Load a preset example configuration
     /// </summary>
     [Button("Load Example 1 (10x10, 6 colors)")]
+    [FoldoutGroup("Manual Settings")]
     private void LoadExample1()
     {
+        currentLevelData = null; // Clear level data to use manual settings
         rows = 10;
         columns = 10;
         colorCount = 6;
@@ -192,8 +282,10 @@ public class LevelManager : MonoBehaviour
     }
 
     [Button("Load Example 2 (5x8, 4 colors)")]
+    [FoldoutGroup("Manual Settings")]
     private void LoadExample2()
     {
+        currentLevelData = null; // Clear level data to use manual settings
         rows = 5;
         columns = 8;
         colorCount = 4;
