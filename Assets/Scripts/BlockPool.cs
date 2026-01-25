@@ -15,6 +15,9 @@ public class BlockPool : MonoBehaviour
     private Queue<Block> availableBlocks = new Queue<Block>();
     private List<Block> activeBlocks = new List<Block>();
 
+    // Reusable list to avoid GC during ClearAll
+    private List<Block> tempBlocksList = new List<Block>();
+
     private void Awake()
     {
         if (poolParent == null)
@@ -79,8 +82,11 @@ public class BlockPool : MonoBehaviour
     /// </summary>
     public void ClearAll()
     {
-        var blocksToReturn = new List<Block>(activeBlocks);
-        foreach (var block in blocksToReturn)
+        // Reuse temp list to avoid allocation
+        tempBlocksList.Clear();
+        tempBlocksList.AddRange(activeBlocks);
+
+        foreach (var block in tempBlocksList)
         {
             ReturnBlock(block);
         }

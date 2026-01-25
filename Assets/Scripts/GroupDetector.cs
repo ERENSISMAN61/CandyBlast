@@ -13,6 +13,11 @@ public class GroupDetector
     private HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
     private List<Vector2Int> currentGroup = new List<Vector2Int>();
 
+    // Reusable collections for FindAllGroups to avoid GC
+    private Dictionary<int, List<List<Vector2Int>>> allGroupsDict = new Dictionary<int, List<List<Vector2Int>>>();
+    private HashSet<Vector2Int> globalVisited = new HashSet<Vector2Int>();
+    private HashSet<Vector2Int> processedBlocks = new HashSet<Vector2Int>();
+
     // Directions for flood fill (up, down, left, right)
     private static readonly Vector2Int[] directions = new Vector2Int[]
     {
@@ -84,8 +89,9 @@ public class GroupDetector
     /// </summary>
     public Dictionary<int, List<List<Vector2Int>>> FindAllGroups()
     {
-        var allGroups = new Dictionary<int, List<List<Vector2Int>>>();
-        var globalVisited = new HashSet<Vector2Int>();
+        // Reuse collections - avoid GC
+        allGroupsDict.Clear();
+        globalVisited.Clear();
 
         for (int x = 0; x < board.Columns; x++)
         {
@@ -108,10 +114,10 @@ public class GroupDetector
                 if (currentGroup.Count >= 2) // Minimum group size
                 {
                     int size = currentGroup.Count;
-                    if (!allGroups.ContainsKey(size))
-                        allGroups[size] = new List<List<Vector2Int>>();
+                    if (!allGroupsDict.ContainsKey(size))
+                        allGroupsDict[size] = new List<List<Vector2Int>>();
 
-                    allGroups[size].Add(new List<Vector2Int>(currentGroup));
+                    allGroupsDict[size].Add(new List<Vector2Int>(currentGroup));
                 }
 
                 // Mark all blocks in this group as globally visited
@@ -122,7 +128,7 @@ public class GroupDetector
             }
         }
 
-        return allGroups;
+        return allGroupsDict;
     }
 
     /// <summary>
@@ -132,7 +138,7 @@ public class GroupDetector
     public void UpdateAllGroupIcons(int thresholdA, int thresholdB, int thresholdC, SpriteManager spriteManager)
     {
         var allGroups = FindAllGroups();
-        var processedBlocks = new HashSet<Vector2Int>();
+        processedBlocks.Clear(); // Reuse hashset
 
         // Update blocks that are in groups
         foreach (var groupSizePair in allGroups)
@@ -161,7 +167,7 @@ public class GroupDetector
             for (int y = 0; y < board.Rows; y++)
             {
                 Vector2Int pos = new Vector2Int(x, y);
-                
+
                 if (!processedBlocks.Contains(pos))
                 {
                     Block block = board.GetBlock(pos);
@@ -181,7 +187,7 @@ public class GroupDetector
     /// </summary>
     public bool HasAnyValidGroups()
     {
-        var globalVisited = new HashSet<Vector2Int>();
+        globalVisited.Clear(); // Reuse hashset
 
         for (int x = 0; x < board.Columns; x++)
         {

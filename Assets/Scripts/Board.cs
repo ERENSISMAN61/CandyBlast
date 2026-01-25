@@ -30,6 +30,11 @@ public class Board : MonoBehaviour
     private Block[,] grid;
     private GroupDetector groupDetector;
 
+    // Reusable collections to avoid GC - allocated once, reused via Clear()
+    private List<Block> shuffleBlocksList = new List<Block>();
+    private List<Vector2Int> shufflePositionsList = new List<Vector2Int>();
+    private Dictionary<BlockType, List<Vector2Int>> blocksByTypeDict = new Dictionary<BlockType, List<Vector2Int>>();
+
     // Properties
     public int Rows => rows;
     public int Columns => columns;
@@ -343,8 +348,9 @@ public class Board : MonoBehaviour
     {
         IsAnimating = true;
 
-        List<Block> allBlocks = new List<Block>();
-        List<Vector2Int> allPositions = new List<Vector2Int>();
+        // Reuse existing lists - avoid GC
+        shuffleBlocksList.Clear();
+        shufflePositionsList.Clear();
 
         // Collect all blocks and positions
         for (int x = 0; x < columns; x++)
@@ -356,8 +362,8 @@ public class Board : MonoBehaviour
 
                 if (block != null)
                 {
-                    allBlocks.Add(block);
-                    allPositions.Add(pos);
+                    shuffleBlocksList.Add(block);
+                    shufflePositionsList.Add(pos);
 
                     // Reset to default icon before shuffle
                     Sprite defaultSprite = spriteManager.GetDefaultSprite(block.BlockType);
@@ -367,19 +373,19 @@ public class Board : MonoBehaviour
         }
 
         // Fisher-Yates shuffle - single pass, O(n)
-        for (int i = allBlocks.Count - 1; i > 0; i--)
+        for (int i = shuffleBlocksList.Count - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
-            Block temp = allBlocks[i];
-            allBlocks[i] = allBlocks[j];
-            allBlocks[j] = temp;
+            Block temp = shuffleBlocksList[i];
+            shuffleBlocksList[i] = shuffleBlocksList[j];
+            shuffleBlocksList[j] = temp;
         }
 
         // Place blocks in shuffled positions
-        for (int i = 0; i < allBlocks.Count; i++)
+        for (int i = 0; i < shuffleBlocksList.Count; i++)
         {
-            Vector2Int pos = allPositions[i];
-            Block block = allBlocks[i];
+            Vector2Int pos = shufflePositionsList[i];
+            Block block = shuffleBlocksList[i];
 
             grid[pos.x, pos.y] = block;
             block.GridPosition = pos;
@@ -405,8 +411,12 @@ public class Board : MonoBehaviour
     /// </summary>
     private void ForceCreateValidGroup()
     {
-        // Group blocks by type
-        Dictionary<BlockType, List<Vector2Int>> blocksByType = new Dictionary<BlockType, List<Vector2Int>>();
+        // Group blocks by type - reuse dictionary to avoid GC
+        blocksByTypeDict.Clear();
+        foreach (var list in blocksByTypeDict.Values)
+        {
+            list.Clear();
+        }
 
         for (int x = 0; x < columns; x++)
         {
@@ -417,16 +427,16 @@ public class Board : MonoBehaviour
 
                 if (block != null)
                 {
-                    if (!blocksByType.ContainsKey(block.BlockType))
-                        blocksByType[block.BlockType] = new List<Vector2Int>();
+                    if (!blocksByTypeDict.ContainsKey(block.BlockType))
+                        blocksByTypeDict[block.BlockType] = new List<Vector2Int>();
 
-                    blocksByType[block.BlockType].Add(pos);
+                    blocksByTypeDict[block.BlockType].Add(pos);
                 }
             }
         }
 
         // Find a color with at least 2 blocks
-        foreach (var kvp in blocksByType)
+        foreach (var kvp in blocksByTypeDict)
         {
             if (kvp.Value.Count >= 2)
             {
