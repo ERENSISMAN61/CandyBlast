@@ -79,11 +79,13 @@ public class LevelManager : MonoBehaviour
     [ShowInInspector] private int totalMoves = 0;
     [ShowInInspector] private int totalBlocksBlasted = 0;
     [ShowInInspector] private int remainingTargetScore = 0;
+    [ShowInInspector] private int remainingMoves = 0;
     [ShowInInspector] private float elapsedTime = 0f;
     [ShowInInspector] private string currentLevelName = "No Level";
 
     // Public property for UI access
     public int RemainingTargetScore => remainingTargetScore;
+    public int RemainingMoves => remainingMoves;
 
     // Helper methods to get current level data
     private int GetCurrentRows() => currentLevelData != null ? currentLevelData.Rows : rows;
@@ -134,6 +136,7 @@ public class LevelManager : MonoBehaviour
         totalMoves = 0;
         totalBlocksBlasted = 0;
         remainingTargetScore = currentLevelData != null ? currentLevelData.TargetScore : 1000;
+        remainingMoves = currentLevelData != null ? currentLevelData.MaxMoves : 0;
         elapsedTime = 0f;
 
         // Update current level name
@@ -235,11 +238,26 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void OnBlocksBlasted(int count)
     {
+        totalMoves++;
         totalBlocksBlasted += count;
         int scoreGained = count * 10; // 10 points per block
         remainingTargetScore -= scoreGained;
 
-        Debug.Log($"Blasted {count} blocks! Score gained: {scoreGained}, Remaining target: {remainingTargetScore}");
+        // Decrease remaining moves if limit is set
+        if (currentLevelData != null && currentLevelData.MaxMoves > 0)
+        {
+            remainingMoves--;
+            
+            // Check for fail condition (no moves left)
+            if (remainingMoves <= 0 && remainingTargetScore > 0)
+            {
+                remainingMoves = 0;
+                OnLevelFailed();
+                return;
+            }
+        }
+
+        Debug.Log($"Blasted {count} blocks! Score gained: {scoreGained}, Remaining target: {remainingTargetScore}, Remaining moves: {remainingMoves}");
 
         // Check if level is complete
         if (remainingTargetScore <= 0)
@@ -257,6 +275,15 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Level Complete! Target score reached!");
         EventManager.Instance.TriggerLevelComplete();
         EventManager.Instance.TriggerWin();
+    }
+
+    /// <summary>
+    /// Called when level is failed (no moves left)
+    /// </summary>
+    private void OnLevelFailed()
+    {
+        Debug.Log("Level Failed! No moves left!");
+        EventManager.Instance.TriggerFail();
     }
 
     /// <summary>

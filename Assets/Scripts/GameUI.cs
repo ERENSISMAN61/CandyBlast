@@ -21,13 +21,12 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Board board;
     [SerializeField] private LevelManager levelManager;
 
-    private int currentMoves = 0;
-
     private void Start()
     {
         // Subscribe to events
         if (EventManager.Instance != null)
         {
+            EventManager.Instance.OnLevelStart += OnLevelStart;
             EventManager.Instance.OnBlocksBlasted += OnBlocksBlasted;
             EventManager.Instance.OnDeadlock += OnDeadlock;
             EventManager.Instance.OnBoardStable += OnBoardStable;
@@ -46,9 +45,13 @@ public class GameUI : MonoBehaviour
         UpdateUI();
     }
 
+    private void OnLevelStart()
+    {
+        UpdateUI();
+    }
+
     private void OnBlocksBlasted(int count)
     {
-        currentMoves++;
         UpdateUI();
     }
 
@@ -69,8 +72,14 @@ public class GameUI : MonoBehaviour
         if (scoreText != null && levelManager != null)
             scoreText.text = $"{levelManager.RemainingTargetScore}";
 
-        if (movesText != null)
-            movesText.text = $"{currentMoves}";
+        if (movesText != null && levelManager != null)
+        {
+            // Show remaining moves if limited, otherwise show total moves made
+            if (levelManager.CurrentLevel != null && levelManager.CurrentLevel.MaxMoves > 0)
+                movesText.text = $"{levelManager.RemainingMoves}";
+            else
+                movesText.text = "∞"; // Unlimited moves
+        }
 
         if (groupInfoText != null && levelManager != null)
         {
@@ -90,8 +99,6 @@ public class GameUI : MonoBehaviour
 
     private void OnRestartClicked()
     {
-        currentMoves = 0;
-
         if (levelManager != null)
         {
             levelManager.RestartLevel();
@@ -107,6 +114,7 @@ public class GameUI : MonoBehaviour
     {
         if (EventManager.Instance != null)
         {
+            EventManager.Instance.OnLevelStart -= OnLevelStart;
             EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted;
             EventManager.Instance.OnDeadlock -= OnDeadlock;
             EventManager.Instance.OnBoardStable -= OnBoardStable;
