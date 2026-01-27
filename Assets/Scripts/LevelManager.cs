@@ -153,6 +153,8 @@ public class LevelManager : MonoBehaviour
 
         string levelInfo = currentLevelData != null ? currentLevelData.GetLevelSummary() : "Manual Configuration";
         Debug.Log($"Level initialized: {levelInfo}");
+
+        EventManager.Instance.TriggerLevelStart();
     }
 
     /// <summary>
