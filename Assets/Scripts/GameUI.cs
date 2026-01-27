@@ -21,17 +21,16 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Board board;
     [SerializeField] private LevelManager levelManager;
 
-    private int currentScore = 0;
     private int currentMoves = 0;
 
     private void Start()
     {
         // Subscribe to events
-        if (board != null)
+        if (EventManager.Instance != null)
         {
-            board.OnBlocksBlasted += OnBlocksBlasted;
-            board.OnDeadlock += OnDeadlock;
-            board.OnBoardStable += OnBoardStable;
+            EventManager.Instance.OnBlocksBlasted += OnBlocksBlasted;
+            EventManager.Instance.OnDeadlock += OnDeadlock;
+            EventManager.Instance.OnBoardStable += OnBoardStable;
         }
 
         // Setup buttons
@@ -50,7 +49,6 @@ public class GameUI : MonoBehaviour
     private void OnBlocksBlasted(int count)
     {
         currentMoves++;
-        currentScore += count * 10;
         UpdateUI();
     }
 
@@ -68,11 +66,11 @@ public class GameUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (scoreText != null)
-            scoreText.text = $"Score: {currentScore}";
+        if (scoreText != null && levelManager != null)
+            scoreText.text = $"{levelManager.RemainingTargetScore}";
 
         if (movesText != null)
-            movesText.text = $"Moves: {currentMoves}";
+            movesText.text = $"{currentMoves}";
 
         if (groupInfoText != null && levelManager != null)
         {
@@ -92,12 +90,11 @@ public class GameUI : MonoBehaviour
 
     private void OnRestartClicked()
     {
-        currentScore = 0;
         currentMoves = 0;
 
-        if (board != null)
+        if (levelManager != null)
         {
-            board.InitializeBoard();
+            levelManager.RestartLevel();
         }
 
         if (deadlockPanel != null)
@@ -108,11 +105,11 @@ public class GameUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (board != null)
+        if (EventManager.Instance != null)
         {
-            board.OnBlocksBlasted -= OnBlocksBlasted;
-            board.OnDeadlock -= OnDeadlock;
-            board.OnBoardStable -= OnBoardStable;
+            EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted;
+            EventManager.Instance.OnDeadlock -= OnDeadlock;
+            EventManager.Instance.OnBoardStable -= OnBoardStable;
         }
 
         if (shuffleButton != null)

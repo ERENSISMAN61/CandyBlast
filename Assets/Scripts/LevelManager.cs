@@ -78,9 +78,12 @@ public class LevelManager : MonoBehaviour
     [Title("Game Stats"), ReadOnly]
     [ShowInInspector] private int totalMoves = 0;
     [ShowInInspector] private int totalBlocksBlasted = 0;
-    [ShowInInspector] private int score = 0;
+    [ShowInInspector] private int remainingTargetScore = 0;
     [ShowInInspector] private float elapsedTime = 0f;
     [ShowInInspector] private string currentLevelName = "No Level";
+
+    // Public property for UI access
+    public int RemainingTargetScore => remainingTargetScore;
 
     // Helper methods to get current level data
     private int GetCurrentRows() => currentLevelData != null ? currentLevelData.Rows : rows;
@@ -130,7 +133,7 @@ public class LevelManager : MonoBehaviour
         // Reset stats
         totalMoves = 0;
         totalBlocksBlasted = 0;
-        score = 0;
+        remainingTargetScore = currentLevelData != null ? currentLevelData.TargetScore : 1000;
         elapsedTime = 0f;
 
         // Update current level name
@@ -140,14 +143,13 @@ public class LevelManager : MonoBehaviour
         board.SetBoardParameters(GetCurrentRows(), GetCurrentColumns(), GetCurrentColorCount());
 
         // Subscribe to board events
-        board.OnBlocksBlasted -= OnBlocksBlasted; // Unsubscribe first to avoid duplicates
-        board.OnDeadlock -= OnDeadlock;
-        board.OnBoardStable -= OnBoardStable;
+        EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted; // Unsubscribe first to avoid duplicates
+        EventManager.Instance.OnDeadlock -= OnDeadlock;
+        EventManager.Instance.OnBoardStable -= OnBoardStable;
 
-        board.OnBlocksBlasted += OnBlocksBlasted;
-        board.OnDeadlock += OnDeadlock;
-        board.OnBoardStable += OnBoardStable;
-
+        EventManager.Instance.OnBlocksBlasted += OnBlocksBlasted;
+        EventManager.Instance.OnDeadlock += OnDeadlock;
+        EventManager.Instance.OnBoardStable += OnBoardStable;
         // Initialize board
         board.InitializeBoard();
 
@@ -166,6 +168,12 @@ public class LevelManager : MonoBehaviour
         {
             Debug.LogError($"Invalid level index: {levelIndex}");
             return;
+        }
+
+        // Cleanup before loading new level
+        if (board != null)
+        {
+            board.ClearBoard();
         }
 
         currentLevelData = allLevels[levelIndex];
@@ -195,6 +203,12 @@ public class LevelManager : MonoBehaviour
     [Button("Restart Level", ButtonSizes.Medium)]
     public void RestartLevel()
     {
+        // Cleanup before restarting
+        if (board != null)
+        {
+            board.ClearBoard();
+        }
+
         InitializeLevel();
     }
 
@@ -222,9 +236,27 @@ public class LevelManager : MonoBehaviour
     private void OnBlocksBlasted(int count)
     {
         totalBlocksBlasted += count;
-        score += count * 10; // 10 points per block
+        int scoreGained = count * 10; // 10 points per block
+        remainingTargetScore -= scoreGained;
 
-        Debug.Log($"Blasted {count} blocks! Total score: {score}");
+        Debug.Log($"Blasted {count} blocks! Score gained: {scoreGained}, Remaining target: {remainingTargetScore}");
+
+        // Check if level is complete
+        if (remainingTargetScore <= 0)
+        {
+            remainingTargetScore = 0;
+            OnLevelComplete();
+        }
+    }
+
+    /// <summary>
+    /// Called when level is completed (target reached)
+    /// </summary>
+    private void OnLevelComplete()
+    {
+        Debug.Log("Level Complete! Target score reached!");
+        EventManager.Instance.TriggerLevelComplete();
+        EventManager.Instance.TriggerWin();
     }
 
     /// <summary>
@@ -317,9 +349,9 @@ public class LevelManager : MonoBehaviour
     {
         if (board != null)
         {
-            board.OnBlocksBlasted -= OnBlocksBlasted;
-            board.OnDeadlock -= OnDeadlock;
-            board.OnBoardStable -= OnBoardStable;
+            EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted;
+            EventManager.Instance.OnDeadlock -= OnDeadlock;
+            EventManager.Instance.OnBoardStable -= OnBoardStable;
         }
     }
 }

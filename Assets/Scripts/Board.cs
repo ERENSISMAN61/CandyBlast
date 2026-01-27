@@ -41,11 +41,6 @@ public class Board : MonoBehaviour
     public int ColorCount => colorCount;
     public bool IsAnimating { get; private set; }
 
-    // Events
-    public System.Action<int> OnBlocksBlasted;
-    public System.Action OnBoardStable;
-    public System.Action OnDeadlock;
-
     private void Awake()
     {
         grid = new Block[columns, rows];
@@ -173,7 +168,8 @@ public class Board : MonoBehaviour
             }
         }
 
-        OnBlocksBlasted?.Invoke(count);
+        if (EventManager.Instance != null)
+            EventManager.Instance.TriggerBlocksBlasted(count);
 
         // Apply gravity and fill after blast
         StartCoroutine(ApplyGravityAndFill());
@@ -271,12 +267,14 @@ public class Board : MonoBehaviour
         // For now, just check for deadlock
 
         IsAnimating = false;
-        OnBoardStable?.Invoke();
+        if (EventManager.Instance != null)
+            EventManager.Instance.TriggerBoardStable();
 
         // Check for deadlock
         if (!groupDetector.HasAnyValidGroups())
         {
-            OnDeadlock?.Invoke();
+            if (EventManager.Instance != null)
+                EventManager.Instance.TriggerDeadlock();
         }
 
         yield return null;
@@ -523,7 +521,8 @@ public class Board : MonoBehaviour
         Debug.Log("Shuffle complete - Icons updated");
 
         IsAnimating = false;
-        OnBoardStable?.Invoke();
+        if (EventManager.Instance != null)
+            EventManager.Instance.TriggerBoardStable();
     }
 
     /// <summary>

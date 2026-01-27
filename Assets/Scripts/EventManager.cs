@@ -8,8 +8,14 @@ public class EventManager : MonoBehaviour
     // Events
     public event Action OnLevelStart;
     public event Action OnLevelRestart;
+    public event Action OnLevelComplete;
     public event Action OnWin;
     public event Action OnFail;
+
+    // Board Events
+    public event Action<int> OnBlocksBlasted;
+    public event Action OnBoardStable;
+    public event Action OnDeadlock;
 
     private void Awake()
     {
@@ -35,6 +41,11 @@ public class EventManager : MonoBehaviour
         OnLevelRestart?.Invoke();
     }
 
+    public void TriggerLevelComplete()
+    {
+        OnLevelComplete?.Invoke();
+    }
+
     public void TriggerWin()
     {
         OnWin?.Invoke();
@@ -43,5 +54,20 @@ public class EventManager : MonoBehaviour
     public void TriggerFail()
     {
         OnFail?.Invoke();
+    }
+
+    public void TriggerBlocksBlasted(int count)
+    {
+        OnBlocksBlasted?.Invoke(count);
+    }
+
+    public void TriggerBoardStable()
+    {
+        OnBoardStable?.Invoke();
+    }
+
+    public void TriggerDeadlock()
+    {
+        OnDeadlock?.Invoke();
     }
 }
