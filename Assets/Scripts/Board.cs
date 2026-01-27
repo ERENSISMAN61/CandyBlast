@@ -62,8 +62,30 @@ public class Board : MonoBehaviour
             }
         }
 
-        // Update icons after initial creation
-        StartCoroutine(UpdateIconsAfterDelay());
+        // Wait for blocks to be created, then check for deadlock
+        StartCoroutine(InitializeBoardWithDeadlockCheck());
+    }
+
+    /// <summary>
+    /// Check for deadlock after initial board creation and fix if needed
+    /// </summary>
+    private IEnumerator InitializeBoardWithDeadlockCheck()
+    {
+        // Wait for all blocks to be created and positioned
+        yield return new WaitForSeconds(0.6f);
+
+        // Check if board has any valid groups
+        if (!groupDetector.HasAnyValidGroups())
+        {
+            Debug.Log("Initial board created with deadlock - fixing...");
+            ForceCreateValidGroup();
+
+            // Wait for blocks to move to new positions
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Update icons after ensuring valid groups exist
+        UpdateAllIcons();
     }
 
     /// <summary>
