@@ -16,6 +16,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject winText;
     [FoldoutGroup("Fail Panel")]
     [SerializeField] private GameObject failPanel;
+    [FoldoutGroup("Fail Panel")]
+    [SerializeField] private Image failBgImage;
+    [FoldoutGroup("Fail Panel")]
+    [SerializeField] private GameObject failMidPanel;
+    [FoldoutGroup("Fail Panel")]
+    [SerializeField] private GameObject failText;
     [FoldoutGroup("Color Options")]
     [SerializeField] private Color panelOriginalBgColor;
     [FoldoutGroup("Color Options")]
@@ -70,8 +76,13 @@ public class UIManager : MonoBehaviour
         if (failPanel != null)
         {
             failPanel.SetActive(true);
-            failPanel.transform.localScale = Vector3.zero;
-            failPanel.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
+            failMidPanel.transform.localScale = Vector3.zero;
+            failText.transform.localScale = Vector3.zero;
+            failBgImage.color = panelTransparentBgColor;
+
+            failBgImage.DOColor(panelOriginalBgColor, 0.2f).SetDelay(0.3f);
+            failText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack).SetDelay(0.3f);
+            failMidPanel.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack).SetDelay(0.3f);
         }
     }
 
@@ -120,7 +131,10 @@ public class UIManager : MonoBehaviour
 
         if (failPanel != null)
         {
-            failPanel.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
+
+            failBgImage.DOColor(panelTransparentBgColor, 0.4f);
+            failText.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack);
+            failMidPanel.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
             {
                 failPanel.SetActive(false);
             });

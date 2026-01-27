@@ -6196,6 +6196,9 @@ MonoBehaviour:
   winMidPanel: {fileID: 948705149}
   winText: {fileID: 1736053487}
   failPanel: {fileID: 1459505237}
+  failBgImage: {fileID: 1459505239}
+  failMidPanel: {fileID: 1609496649}
+  failText: {fileID: 1131608582}
   panelOriginalBgColor: {r: 0, g: 0, b: 0, a: 0.9490196}
   panelTransparentBgColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2058729960
