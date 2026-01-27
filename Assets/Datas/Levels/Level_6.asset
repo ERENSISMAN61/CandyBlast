@@ -25,6 +25,6 @@ MonoBehaviour:
   minGroupSize: 2
   autoShuffleOnDeadlock: 1
   targetScore: 350
-  maxMoves: 15
+  maxMoves: 18
   timeLimit: 0
   difficulty: 1
