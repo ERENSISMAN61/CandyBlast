@@ -24,7 +24,7 @@ MonoBehaviour:
   thresholdC: 9
   minGroupSize: 2
   autoShuffleOnDeadlock: 1
-  targetScore: 1000
-  maxMoves: 50
+  targetScore: 1200
+  maxMoves: 35
   timeLimit: 0
   difficulty: 1
