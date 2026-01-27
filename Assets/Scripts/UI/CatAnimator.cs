@@ -38,10 +38,6 @@ public class CatAnimator : MonoBehaviour
         EventManager.Instance.OnFail -= PlayFailAnimation;
     }
 
-    void Start()
-    {
-        PlayIdleAnimation();
-    }
     private void PlayIdleAnimation()
     {
         PlayIdleAnimationWithTransform();
@@ -99,19 +95,6 @@ public class CatAnimator : MonoBehaviour
             for (int i = 0; i < idleSprites.Length; i++)
             {
                 imageAnimator.sprite = idleSprites[i];
-
-                // İlk 36 sprite: scale 1, rotation 0
-                if (i < 36)
-                {
-                    rectTransform.localScale = Vector3.one;
-                    rectTransform.localRotation = Quaternion.Euler(0, 0, 0);
-                }
-                // 36-72 arası sprite'lar: scale 1.15, rotation Z -3.6
-                else if (i >= 36 && i <= 72)
-                {
-                    rectTransform.localScale = Vector3.one * 1.15f;
-                    rectTransform.localRotation = Quaternion.Euler(0, 0, -3.6f);
-                }
 
                 yield return new WaitForSeconds(frameDuration);
             }

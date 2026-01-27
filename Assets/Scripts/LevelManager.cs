@@ -108,23 +108,17 @@ public class LevelManager : MonoBehaviour
         ValidateThresholds();
     }
 
-    private void Start()
+    public void InitializeGame()
     {
         // Load starting level if available
         if (allLevels != null && allLevels.Length > 0 && startingLevelIndex < allLevels.Length)
         {
             LoadLevel(startingLevelIndex);
         }
-        else
-        {
-            InitializeLevel();
-        }
     }
-
     /// <summary>
     /// Initialize level with current parameters
     /// </summary>
-    [Button("Initialize Current Level", ButtonSizes.Large)]
     private void InitializeLevel()
     {
         if (board == null)

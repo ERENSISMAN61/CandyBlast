@@ -1,16 +1,19 @@
 using UnityEngine;
-
+using DG.Tweening;
 public class UIManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private GameObject mainMenuPanel;
+    [SerializeField] private GameObject gamePanel;
+    [SerializeField] private GameObject winPanel;
+    [SerializeField] private GameObject failPanel;
+    public void PlayButton()
     {
+        LevelManager.Instance.InitializeGame();
 
-    }
+        mainMenuPanel.transform.DOMoveY(-2000, 0.7f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            mainMenuPanel.SetActive(false);
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        });
     }
 }
