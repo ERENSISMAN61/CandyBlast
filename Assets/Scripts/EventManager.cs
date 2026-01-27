@@ -16,6 +16,7 @@ public class EventManager : MonoBehaviour
     public event Action<int> OnBlocksBlasted;
     public event Action OnBoardStable;
     public event Action OnDeadlock;
+    public event Action UpdateUITexts;
 
     private void Awake()
     {
@@ -69,5 +70,9 @@ public class EventManager : MonoBehaviour
     public void TriggerDeadlock()
     {
         OnDeadlock?.Invoke();
+    }
+    public void TriggerUpdateUITexts()
+    {
+        UpdateUITexts?.Invoke();
     }
 }

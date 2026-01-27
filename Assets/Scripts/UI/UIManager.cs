@@ -58,9 +58,9 @@ public class UIManager : MonoBehaviour
             winText.transform.localScale = Vector3.zero;
             winBgImage.color = panelTransparentBgColor;
 
-            winBgImage.DOColor(panelOriginalBgColor, 0.2f);
-            winText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
-            winMidPanel.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
+            winBgImage.DOColor(panelOriginalBgColor, 0.2f).SetDelay(0.3f);
+            winText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack).SetDelay(0.3f);
+            winMidPanel.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack).SetDelay(0.3f);
 
         }
     }

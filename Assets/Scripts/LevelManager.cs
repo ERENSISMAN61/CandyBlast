@@ -247,7 +247,7 @@ public class LevelManager : MonoBehaviour
         if (currentLevelData != null && currentLevelData.MaxMoves > 0)
         {
             remainingMoves--;
-            
+
             // Check for fail condition (no moves left)
             if (remainingMoves <= 0 && remainingTargetScore > 0)
             {
@@ -265,6 +265,8 @@ public class LevelManager : MonoBehaviour
             remainingTargetScore = 0;
             OnLevelComplete();
         }
+
+        EventManager.Instance.TriggerUpdateUITexts();
     }
 
     /// <summary>

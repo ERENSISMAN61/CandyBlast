@@ -27,7 +27,7 @@ public class GameUI : MonoBehaviour
         if (EventManager.Instance != null)
         {
             EventManager.Instance.OnLevelStart += OnLevelStart;
-            EventManager.Instance.OnBlocksBlasted += OnBlocksBlasted;
+            EventManager.Instance.UpdateUITexts += OnBlocksBlasted;
             EventManager.Instance.OnDeadlock += OnDeadlock;
             EventManager.Instance.OnBoardStable += OnBoardStable;
         }
@@ -50,7 +50,7 @@ public class GameUI : MonoBehaviour
         UpdateUI();
     }
 
-    private void OnBlocksBlasted(int count)
+    private void OnBlocksBlasted()
     {
         UpdateUI();
     }
@@ -69,6 +69,7 @@ public class GameUI : MonoBehaviour
 
     private void UpdateUI()
     {
+
         if (scoreText != null && levelManager != null)
             scoreText.text = $"{levelManager.RemainingTargetScore}";
 
@@ -115,7 +116,7 @@ public class GameUI : MonoBehaviour
         if (EventManager.Instance != null)
         {
             EventManager.Instance.OnLevelStart -= OnLevelStart;
-            EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted;
+            EventManager.Instance.UpdateUITexts -= OnBlocksBlasted;
             EventManager.Instance.OnDeadlock -= OnDeadlock;
             EventManager.Instance.OnBoardStable -= OnBoardStable;
         }
