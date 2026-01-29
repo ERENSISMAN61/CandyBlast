@@ -252,6 +252,7 @@ public class LevelManager : MonoBehaviour
             if (remainingMoves <= 0 && remainingTargetScore > 0)
             {
                 remainingMoves = 0;
+                board.StopLevel(); // Stop spawning new blocks
                 OnLevelFailed();
                 return;
             }
@@ -263,7 +264,9 @@ public class LevelManager : MonoBehaviour
         if (remainingTargetScore <= 0)
         {
             remainingTargetScore = 0;
+            board.StopLevel(); // Stop spawning new blocks
             OnLevelComplete();
+            return;
         }
 
         EventManager.Instance.TriggerUpdateUITexts();

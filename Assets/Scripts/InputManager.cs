@@ -27,7 +27,8 @@ public class InputManager : MonoBehaviour
             return;
         }
         
-        if (board.IsAnimating || isProcessingInput)
+        // Don't allow input if board is animating, processing, or level is not active
+        if (board.IsAnimating || isProcessingInput || !board.IsLevelActive)
             return;
 
         HandleInput();

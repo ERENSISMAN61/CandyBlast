@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 /// <summary>
 /// Main board/grid management system
@@ -40,6 +41,7 @@ public class Board : MonoBehaviour
     public int Columns => columns;
     public int ColorCount => colorCount;
     public bool IsAnimating { get; private set; }
+    public bool IsLevelActive { get; private set; } = true;
 
     private void Awake()
     {
@@ -52,6 +54,7 @@ public class Board : MonoBehaviour
     /// </summary>
     public void InitializeBoard()
     {
+        IsLevelActive = true;
         ClearBoard();
         StartCoroutine(InitializeBoardDelayed());
     }
@@ -265,6 +268,13 @@ public class Board : MonoBehaviour
     /// </summary>
     private IEnumerator FillEmptySpaces()
     {
+        // Don't fill if level is no longer active (win/fail)
+        if (!IsLevelActive)
+        {
+            IsAnimating = false;
+            yield break;
+        }
+
         for (int x = 0; x < columns; x++)
         {
             for (int y = 0; y < rows; y++)
@@ -561,6 +571,7 @@ public class Board : MonoBehaviour
     /// </summary>
     public void ClearBoard()
     {
+
         for (int x = 0; x < columns; x++)
         {
             for (int y = 0; y < rows; y++)
@@ -573,6 +584,15 @@ public class Board : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Stop level activity - prevents new blocks from spawning
+    /// </summary>
+    public void StopLevel()
+    {
+        IsLevelActive = false;
+        IsAnimating = false;
     }
 
     /// <summary>

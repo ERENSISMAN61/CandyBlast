@@ -49,6 +49,9 @@ public class UIManager : MonoBehaviour
     [FoldoutGroup("Color Options")]
     [SerializeField] private Color panelTransparentBgColor;
 
+    private bool nextButtonClicked = false;
+    private bool restartButtonClicked = false;
+
     private void Start()
     {
         if (EventManager.Instance != null)
@@ -141,6 +144,9 @@ public class UIManager : MonoBehaviour
 
     public void NextLevelButton()
     {
+        if (nextButtonClicked)
+            return;
+        nextButtonClicked = true;
         // Hide win panel
         if (winPanel != null)
         {
@@ -150,6 +156,7 @@ public class UIManager : MonoBehaviour
             winMidPanel.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
             {
                 winPanel.SetActive(false);
+                nextButtonClicked = false;
             });
         }
 
@@ -162,6 +169,9 @@ public class UIManager : MonoBehaviour
 
     public void RestartButton()
     {
+        if (restartButtonClicked)
+            return;
+        restartButtonClicked = true;
         // Hide all panels
         HideAllPanels();
 
@@ -184,6 +194,7 @@ public class UIManager : MonoBehaviour
             failMidPanel.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
             {
                 failPanel.SetActive(false);
+                restartButtonClicked = false;
             });
         }
     }

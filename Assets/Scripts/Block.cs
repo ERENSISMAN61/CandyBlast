@@ -32,6 +32,12 @@ public class Block : MonoBehaviour
             spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void OnDisable()
+    {
+        moveTween?.Kill();
+        scaleTween?.Kill();
+        transform.DOKill();
+    }
     /// <summary>
     /// Update sorting order based on grid position
     /// Higher Y = Higher sorting order (drawn on top)
@@ -51,9 +57,6 @@ public class Block : MonoBehaviour
     /// </summary>
     public void Initialize(BlockType type, Sprite sprite, Vector2Int gridPos)
     {
-        // Kill any existing tweens first
-        transform.DOKill();
-
         BlockType = type;
         GridPosition = gridPos;
         CurrentVariant = IconVariant.Default;
@@ -84,7 +87,7 @@ public class Block : MonoBehaviour
         if (spriteRenderer != null && newSprite != null)
         {
             // Quick scale animation for feedback
-            transform.DOKill();
+
             transform.DOPunchScale(Vector3.one * 0.1f, 0.2f, 5, 0.5f);
             spriteRenderer.sprite = newSprite;
         }
