@@ -51,6 +51,9 @@ public class Block : MonoBehaviour
     /// </summary>
     public void Initialize(BlockType type, Sprite sprite, Vector2Int gridPos)
     {
+        // Kill any existing tweens first
+        transform.DOKill();
+
         BlockType = type;
         GridPosition = gridPos;
         CurrentVariant = IconVariant.Default;
@@ -62,8 +65,8 @@ public class Block : MonoBehaviour
         // Set sorting order based on grid position
         UpdateSortingOrder();
 
-        transform.localScale = Vector3.zero;
-        transform.DOScale(Vector3.one, scaleDuration).SetEase(Ease.OutBack);
+        // Start with small scale for pop-in effect during fall
+        transform.localScale = Vector3.one * 0.8f;
     }
 
     /// <summary>
@@ -100,6 +103,9 @@ public class Block : MonoBehaviour
         UpdateSortingOrder();
 
         moveTween?.Kill();
+        scaleTween?.Kill();
+
+        // Move and scale to full size simultaneously for smooth spawn
         moveTween = transform.DOMove(worldPos, moveDuration)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() =>
@@ -107,6 +113,13 @@ public class Block : MonoBehaviour
                 IsMoving = false;
                 onComplete?.Invoke();
             });
+
+        // Scale to full size while moving (only if not already full scale)
+        if (transform.localScale != Vector3.one)
+        {
+            scaleTween = transform.DOScale(Vector3.one, moveDuration * 0.7f)
+                .SetEase(Ease.OutBack);
+        }
     }
 
     /// <summary>
@@ -152,6 +165,8 @@ public class Block : MonoBehaviour
     /// </summary>
     public void ResetBlock()
     {
+        // Kill all tweens immediately
+        transform.DOKill();
         moveTween?.Kill();
         scaleTween?.Kill();
 
@@ -162,7 +177,9 @@ public class Block : MonoBehaviour
         if (spriteRenderer != null)
             spriteRenderer.color = Color.white;
 
+        // Reset transform completely
         transform.localScale = Vector3.one;
+        transform.rotation = Quaternion.identity;
     }
 
     private void OnDestroy()

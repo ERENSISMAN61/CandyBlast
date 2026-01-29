@@ -53,6 +53,15 @@ public class Board : MonoBehaviour
     public void InitializeBoard()
     {
         ClearBoard();
+        StartCoroutine(InitializeBoardDelayed());
+    }
+
+    private IEnumerator InitializeBoardDelayed()
+    {
+        // wait three frame
+        yield return null;
+        yield return null;
+        yield return null;
 
         for (int x = 0; x < columns; x++)
         {
@@ -63,7 +72,7 @@ public class Board : MonoBehaviour
         }
 
         // Wait for blocks to be created, then check for deadlock
-        StartCoroutine(InitializeBoardWithDeadlockCheck());
+        yield return StartCoroutine(InitializeBoardWithDeadlockCheck());
     }
 
     /// <summary>
@@ -72,7 +81,7 @@ public class Board : MonoBehaviour
     private IEnumerator InitializeBoardWithDeadlockCheck()
     {
         // Wait for all blocks to be created and positioned
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.8f);
 
         // Check if board has any valid groups
         if (!groupDetector.HasAnyValidGroups())

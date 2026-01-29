@@ -23,22 +23,19 @@ public class CatAnimator : MonoBehaviour
     private void OnEnable()
     {
         eventManager.OnLevelStart += PlayIdleAnimation;
-        eventManager.OnWin += PlayWinAnimation;
-        eventManager.OnFail += PlayFailAnimation;
+
     }
 
     private void OnDisable()
     {
         eventManager.OnLevelStart -= PlayIdleAnimation;
-        eventManager.OnWin -= PlayWinAnimation;
-        eventManager.OnFail -= PlayFailAnimation;
+
     }
 
     private void OnDestroy()
     {
         eventManager.OnLevelStart -= PlayIdleAnimation;
-        eventManager.OnWin -= PlayWinAnimation;
-        eventManager.OnFail -= PlayFailAnimation;
+
     }
 
     private void PlayIdleAnimation()
@@ -46,31 +43,31 @@ public class CatAnimator : MonoBehaviour
         PlayIdleAnimationWithTransform();
     }
 
-    private void PlayWinAnimation()
-    {
-        PlayAnimation(winSprites, false);
-    }
+    // private void PlayWinAnimation()
+    // {
+    //     PlayAnimation(winSprites, false);
+    // }
 
-    private void PlayFailAnimation()
-    {
-        PlayAnimation(failSprites, false);
-    }
+    // private void PlayFailAnimation()
+    // {
+    //     PlayAnimation(failSprites, false);
+    // }
 
-    private void PlayAnimation(Sprite[] sprites, bool loop)
-    {
-        if (sprites == null || sprites.Length == 0)
-        {
-            Debug.LogWarning("Sprite array is empty or null!");
-            return;
-        }
+    // private void PlayAnimation(Sprite[] sprites, bool loop)
+    // {
+    //     if (sprites == null || sprites.Length == 0)
+    //     {
+    //         Debug.LogWarning("Sprite array is empty or null!");
+    //         return;
+    //     }
 
-        if (currentAnimation != null)
-        {
-            StopCoroutine(currentAnimation);
-        }
+    //     if (currentAnimation != null)
+    //     {
+    //         StopCoroutine(currentAnimation);
+    //     }
 
-        currentAnimation = StartCoroutine(AnimateSprites(sprites, loop));
-    }
+    //     currentAnimation = StartCoroutine(AnimateSprites(sprites, loop));
+    // }
 
     private void PlayIdleAnimationWithTransform()
     {

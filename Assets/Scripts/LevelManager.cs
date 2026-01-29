@@ -301,7 +301,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void OnDeadlock()
     {
-        Debug.LogWarning("Deadlock detected! No valid moves available.");
+        Debug.Log("Deadlock detected! No valid moves available.");
 
         if (GetCurrentAutoShuffle())
         {

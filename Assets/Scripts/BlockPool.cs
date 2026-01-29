@@ -58,7 +58,13 @@ public class BlockPool : MonoBehaviour
     {
         if (block == null) return;
 
+        // Reset before deactivating to ensure clean state
         block.ResetBlock();
+
+        // Reset transform to default position
+        block.transform.localPosition = Vector3.zero;
+        block.transform.localScale = Vector3.one;
+
         block.gameObject.SetActive(false);
         block.transform.SetParent(poolParent);
 
