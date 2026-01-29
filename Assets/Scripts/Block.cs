@@ -26,6 +26,7 @@ public class Block : MonoBehaviour
     private Tween moveTween;
     private Tween scaleTween;
 
+    private Color highlightColor = new Color(0.9f, 0.9f, 0.9f, 1f);
     private void Awake()
     {
         if (spriteRenderer == null)
@@ -159,7 +160,7 @@ public class Block : MonoBehaviour
     {
         if (spriteRenderer != null)
         {
-            spriteRenderer.color = highlighted ? Color.yellow : Color.white;
+            spriteRenderer.color = highlighted ? highlightColor : Color.white;
         }
     }
 
