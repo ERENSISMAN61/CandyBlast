@@ -1327,6 +1327,7 @@ MonoBehaviour:
   failSprites: []
   frameRate: 12
   loopAnimation: 1
+  eventManager: {fileID: 1127936965}
 --- !u!1 &361881804
 GameObject:
   m_ObjectHideFlags: 0
@@ -4959,7 +4960,6 @@ GameObject:
   - component: {fileID: 1605979665}
   - component: {fileID: 1605979664}
   - component: {fileID: 1605979663}
-  - component: {fileID: 1605979667}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5053,26 +5053,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1605979667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605979662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8645bff2a89d4a444b3b5aaa592a7f55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 780752721}
-  movesText: {fileID: 1787454159}
-  groupInfoText: {fileID: 587947309}
-  deadlockPanel: {fileID: 18401991}
-  shuffleButton: {fileID: 2096636197}
-  restartButton: {fileID: 1738238780}
-  board: {fileID: 153077231}
-  levelManager: {fileID: 523226705}
 --- !u!1 &1609496649
 GameObject:
   m_ObjectHideFlags: 0
@@ -6189,6 +6169,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d087405bd64571b4991d714b18110e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 780752721}
+  movesText: {fileID: 1787454159}
+  groupInfoText: {fileID: 587947309}
+  deadlockPanel: {fileID: 18401991}
+  shuffleButton: {fileID: 1361228373}
+  restartButton: {fileID: 1738238780}
+  board: {fileID: 153077231}
+  levelManager: {fileID: 523226705}
   mainMenuPanel: {fileID: 675908471}
   gamePanel: {fileID: 1865506720}
   winPanel: {fileID: 2042446239}

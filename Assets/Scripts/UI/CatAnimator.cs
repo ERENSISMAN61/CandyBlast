@@ -15,27 +15,30 @@ public class CatAnimator : MonoBehaviour
     [SerializeField] private float frameRate = 12f;
     [SerializeField] private bool loopAnimation = true;
 
+    [Header("References")]
+    [SerializeField] private EventManager eventManager;
+
     private Coroutine currentAnimation;
 
     private void OnEnable()
     {
-        EventManager.Instance.OnLevelStart += PlayIdleAnimation;
-        EventManager.Instance.OnWin += PlayWinAnimation;
-        EventManager.Instance.OnFail += PlayFailAnimation;
+        eventManager.OnLevelStart += PlayIdleAnimation;
+        eventManager.OnWin += PlayWinAnimation;
+        eventManager.OnFail += PlayFailAnimation;
     }
 
     private void OnDisable()
     {
-        EventManager.Instance.OnLevelStart -= PlayIdleAnimation;
-        EventManager.Instance.OnWin -= PlayWinAnimation;
-        EventManager.Instance.OnFail -= PlayFailAnimation;
+        eventManager.OnLevelStart -= PlayIdleAnimation;
+        eventManager.OnWin -= PlayWinAnimation;
+        eventManager.OnFail -= PlayFailAnimation;
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.OnLevelStart -= PlayIdleAnimation;
-        EventManager.Instance.OnWin -= PlayWinAnimation;
-        EventManager.Instance.OnFail -= PlayFailAnimation;
+        eventManager.OnLevelStart -= PlayIdleAnimation;
+        eventManager.OnWin -= PlayWinAnimation;
+        eventManager.OnFail -= PlayFailAnimation;
     }
 
     private void PlayIdleAnimation()

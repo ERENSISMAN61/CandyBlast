@@ -2,9 +2,31 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using TMPro;
+
 public class UIManager : MonoBehaviour
 {
+    [FoldoutGroup("UI References")]
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [FoldoutGroup("UI References")]
+    [SerializeField] private TextMeshProUGUI movesText;
+    [FoldoutGroup("UI References")]
+    [SerializeField] private TextMeshProUGUI groupInfoText;
+    [FoldoutGroup("UI References")]
+    [SerializeField] private GameObject deadlockPanel;
+    [FoldoutGroup("UI References")]
+    [SerializeField] private Button shuffleButton;
+    [FoldoutGroup("UI References")]
+    [SerializeField] private Button restartButton;
+
+    [FoldoutGroup("Settings")]
+    [SerializeField] private Board board;
+    [FoldoutGroup("Settings")]
+    [SerializeField] private LevelManager levelManager;
+
+    [FoldoutGroup("Main Panels")]
     [SerializeField] private GameObject mainMenuPanel;
+    [FoldoutGroup("Main Panels")]
     [SerializeField] private GameObject gamePanel;
     [FoldoutGroup("Win Panel")]
     [SerializeField] private GameObject winPanel;
@@ -27,22 +49,53 @@ public class UIManager : MonoBehaviour
     [FoldoutGroup("Color Options")]
     [SerializeField] private Color panelTransparentBgColor;
 
-    private void OnEnable()
+    private void Start()
     {
         if (EventManager.Instance != null)
         {
             EventManager.Instance.OnWin += ShowWinPanel;
             EventManager.Instance.OnFail += ShowFailPanel;
+
+            EventManager.Instance.OnLevelStart += OnLevelStart;
+            EventManager.Instance.UpdateUITexts += OnBlocksBlasted;
+            EventManager.Instance.OnDeadlock += OnDeadlock;
+            EventManager.Instance.OnBoardStable += OnBoardStable;
         }
+
+
+
+        // Setup buttons
+        if (shuffleButton != null)
+            shuffleButton.onClick.AddListener(OnShuffleClicked);
+
+        if (restartButton != null)
+            restartButton.onClick.AddListener(OnRestartClicked);
+
+        if (deadlockPanel != null)
+            deadlockPanel.SetActive(false);
+
+        UpdateUI();
+
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (EventManager.Instance != null)
         {
             EventManager.Instance.OnWin -= ShowWinPanel;
             EventManager.Instance.OnFail -= ShowFailPanel;
+
+            EventManager.Instance.OnLevelStart -= OnLevelStart;
+            EventManager.Instance.UpdateUITexts -= OnBlocksBlasted;
+            EventManager.Instance.OnDeadlock -= OnDeadlock;
+            EventManager.Instance.OnBoardStable -= OnBoardStable;
         }
+
+        if (shuffleButton != null)
+            shuffleButton.onClick.RemoveListener(OnShuffleClicked);
+
+        if (restartButton != null)
+            restartButton.onClick.RemoveListener(OnRestartClicked);
     }
 
     public void PlayButton()
@@ -121,13 +174,7 @@ public class UIManager : MonoBehaviour
 
     private void HideAllPanels()
     {
-        if (winPanel != null)
-        {
-            winPanel.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
-            {
-                winPanel.SetActive(false);
-            });
-        }
+
 
         if (failPanel != null)
         {
@@ -140,4 +187,72 @@ public class UIManager : MonoBehaviour
             });
         }
     }
+
+    private void OnLevelStart()
+    {
+        UpdateUI();
+    }
+
+    private void OnBlocksBlasted()
+    {
+        UpdateUI();
+    }
+
+    private void OnDeadlock()
+    {
+        if (deadlockPanel != null)
+            deadlockPanel.SetActive(true);
+    }
+
+    private void OnBoardStable()
+    {
+        if (deadlockPanel != null)
+            deadlockPanel.SetActive(false);
+    }
+
+    private void UpdateUI()
+    {
+
+        if (scoreText != null && levelManager != null)
+            scoreText.text = $"{levelManager.RemainingTargetScore}";
+
+        if (movesText != null && levelManager != null)
+        {
+            // Show remaining moves if limited, otherwise show total moves made
+            if (levelManager.CurrentLevel != null && levelManager.CurrentLevel.MaxMoves > 0)
+                movesText.text = $"{levelManager.RemainingMoves}";
+            else
+                movesText.text = "∞"; // Unlimited moves
+        }
+
+        if (groupInfoText != null && levelManager != null)
+        {
+            groupInfoText.text = $"Level {levelManager.CurrentLevelIndex + 1}";
+        }
+    }
+
+    private void OnShuffleClicked()
+    {
+        if (board != null && !board.IsAnimating)
+        {
+            board.ShuffleBoard();
+            if (deadlockPanel != null)
+                deadlockPanel.SetActive(false);
+        }
+    }
+
+    private void OnRestartClicked()
+    {
+        if (levelManager != null)
+        {
+            levelManager.RestartLevel();
+        }
+
+        if (deadlockPanel != null)
+            deadlockPanel.SetActive(false);
+
+        UpdateUI();
+    }
+
+
 }

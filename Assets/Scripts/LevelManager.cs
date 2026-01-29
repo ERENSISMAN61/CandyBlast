@@ -275,7 +275,7 @@ public class LevelManager : MonoBehaviour
     private void OnLevelComplete()
     {
         Debug.Log("Level Complete! Target score reached!");
-        EventManager.Instance.TriggerLevelComplete();
+        // EventManager.Instance.TriggerLevelComplete();
         EventManager.Instance.TriggerWin();
     }
 

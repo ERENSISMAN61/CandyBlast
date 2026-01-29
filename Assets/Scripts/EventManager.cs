@@ -8,7 +8,7 @@ public class EventManager : MonoBehaviour
     // Events
     public event Action OnLevelStart;
     public event Action OnLevelRestart;
-    public event Action OnLevelComplete;
+    // public event Action OnLevelComplete;
     public event Action OnWin;
     public event Action OnFail;
 
@@ -42,10 +42,10 @@ public class EventManager : MonoBehaviour
         OnLevelRestart?.Invoke();
     }
 
-    public void TriggerLevelComplete()
-    {
-        OnLevelComplete?.Invoke();
-    }
+    // public void TriggerLevelComplete()
+    // {
+    //     OnLevelComplete?.Invoke();
+    // }
 
     public void TriggerWin()
     {
