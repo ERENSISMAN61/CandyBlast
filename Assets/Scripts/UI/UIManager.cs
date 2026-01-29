@@ -216,6 +216,8 @@ public class UIManager : MonoBehaviour
         if (scoreText != null && levelManager != null)
             scoreText.text = $"{levelManager.RemainingTargetScore}";
 
+        scoreText.transform.DOPunchScale(Vector3.one * 0.2f, 0.2f).SetEase(Ease.OutBack);
+
         if (movesText != null && levelManager != null)
         {
             // Show remaining moves if limited, otherwise show total moves made
@@ -223,6 +225,8 @@ public class UIManager : MonoBehaviour
                 movesText.text = $"{levelManager.RemainingMoves}";
             else
                 movesText.text = "∞"; // Unlimited moves
+
+            movesText.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f).SetEase(Ease.OutBack);
         }
 
         if (groupInfoText != null && levelManager != null)
