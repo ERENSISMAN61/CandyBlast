@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
             Debug.LogWarning("Board reference missing in InputManager!");
             return;
         }
-        
+
         // Don't allow input if board is animating, processing, or level is not active
         if (board.IsAnimating || isProcessingInput || !board.IsLevelActive)
             return;
