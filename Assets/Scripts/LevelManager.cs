@@ -6,7 +6,6 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
 
     [Title("Level Configuration")]
-    [InfoBox("Use LevelData ScriptableObjects to configure levels\nLeave empty to use manual settings below")]
 
     [BoxGroup("Level Data")]
     [SerializeField, LabelText("Current Level Data")]
@@ -23,7 +22,6 @@ public class LevelManager : MonoBehaviour
     private int startingLevelIndex = 0;
 
     [Title("Manual Configuration (if no LevelData)")]
-    [InfoBox("These settings are used only if currentLevelData is null")]
     [FoldoutGroup("Manual Settings")]
     [SerializeField, Range(2, 10), LabelText("M (Rows)")]
     private int rows = 10;
@@ -291,49 +289,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    [Button("Load Example 1 (10x10, 6 colors)")]
-    [FoldoutGroup("Manual Settings")]
-    private void LoadExample1()
-    {
-        currentLevelData = null; // clear level data to use manual settings
-        rows = 10;
-        columns = 10;
-        colorCount = 6;
-        thresholdA = 4;
-        thresholdB = 7;
-        thresholdC = 9;
 
-        if (Application.isPlaying)
-            InitializeLevel();
-    }
-
-    [Button("Load Example 2 (5x8, 4 colors)")]
-    [FoldoutGroup("Manual Settings")]
-    private void LoadExample2()
-    {
-        currentLevelData = null; // clear level data to use manual settings
-        rows = 5;
-        columns = 8;
-        colorCount = 4;
-        thresholdA = 4;
-        thresholdB = 6;
-        thresholdC = 8;
-
-        if (Application.isPlaying)
-            InitializeLevel();
-    }
-
-    public string GetIconVariantDescription(int groupSize)
-    {
-        if (groupSize > thresholdC)
-            return $"Icon C (>{thresholdC})";
-        if (groupSize > thresholdB)
-            return $"Icon B ({thresholdB + 1}-{thresholdC})";
-        if (groupSize > thresholdA)
-            return $"Icon A ({thresholdA + 1}-{thresholdB})";
-
-        return $"Default (≤{thresholdA})";
-    }
 
     private void OnValidate()
     {
