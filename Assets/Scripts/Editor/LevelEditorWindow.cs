@@ -354,7 +354,7 @@ public class LevelEditorWindow : EditorWindow
             return;
         }
 
-        LevelManager levelManager = FindObjectOfType<LevelManager>();
+        LevelManager levelManager = FindFirstObjectByType<LevelManager>();
         if (levelManager != null)
         {
             // this would require adding a method to LevelManager to load a specific LevelData

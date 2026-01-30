@@ -486,7 +486,7 @@ public class Board : MonoBehaviour
         // update all icons based on new groups
         UpdateAllIcons();
 
-        Debug.Log("Shuffle complete - Icons updated");
+        // Debug.Log("Shuffle complete - Icons updated");
 
         IsAnimating = false;
         if (EventManager.Instance != null)

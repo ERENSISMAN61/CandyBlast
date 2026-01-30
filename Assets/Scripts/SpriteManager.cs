@@ -101,7 +101,7 @@ public class SpriteManager : ScriptableObject
         }
 
         UnityEditor.EditorUtility.SetDirty(this);
-        Debug.Log("Sprites auto-loaded successfully!");
+        // Debug.Log("Sprites auto-loaded successfully!");
     }
 #endif
 }

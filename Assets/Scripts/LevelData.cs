@@ -176,12 +176,5 @@ public class LevelData : ScriptableObject
                (timeLimit > 0 ? $", {timeLimit}s" : "");
     }
 
-#if UNITY_EDITOR
-    [Button("Print Level Summary", ButtonSizes.Large)]
-    [PropertyOrder(101)]
-    private void PrintSummary()
-    {
-        Debug.Log(GetLevelSummary());
-    }
-#endif
+
 }

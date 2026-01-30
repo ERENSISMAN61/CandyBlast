@@ -141,11 +141,11 @@ public class LevelManager : MonoBehaviour
 
         EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted; // unsubscribe first to avoid duplicates
         EventManager.Instance.OnDeadlock -= OnDeadlock;
-        EventManager.Instance.OnBoardStable -= OnBoardStable;
+        // EventManager.Instance.OnBoardStable -= OnBoardStable;
 
         EventManager.Instance.OnBlocksBlasted += OnBlocksBlasted;
         EventManager.Instance.OnDeadlock += OnDeadlock;
-        EventManager.Instance.OnBoardStable += OnBoardStable;
+        // EventManager.Instance.OnBoardStable += OnBoardStable;
         // initialize board
         board.InitializeBoard();
 
@@ -203,13 +203,13 @@ public class LevelManager : MonoBehaviour
     {
         if (thresholdA >= thresholdB)
         {
-            Debug.LogWarning("Threshold A should be less than B. Auto-correcting...");
+            // Debug.LogWarning("Threshold A should be less than B. Auto-correcting...");
             thresholdB = thresholdA + 1;
         }
 
         if (thresholdB >= thresholdC)
         {
-            Debug.LogWarning("Threshold B should be less than C. Auto-correcting...");
+            // Debug.LogWarning("Threshold B should be less than C. Auto-correcting...");
             thresholdC = thresholdB + 1;
         }
     }
@@ -237,7 +237,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"Blasted {count} blocks! Score gained: {scoreGained}, Remaining target: {remainingTargetScore}, Remaining moves: {remainingMoves}");
+        // Debug.Log($"Blasted {count} blocks! Score gained: {scoreGained}, Remaining target: {remainingTargetScore}, Remaining moves: {remainingMoves}");
 
         // check if level is complete
         if (remainingTargetScore <= 0)
@@ -266,18 +266,18 @@ public class LevelManager : MonoBehaviour
         EventManager.Instance.TriggerFail();
     }
 
-    private void OnBoardStable()
-    {
-        Debug.Log("Board is stable");
-    }
+    // private void OnBoardStable()
+    // {
+    //     Debug.Log("Board is stable");
+    // }
 
     private void OnDeadlock()
     {
-        Debug.Log("Deadlock detected! No valid moves available.");
+        // Debug.Log("Deadlock detected! No valid moves available.");
 
         if (GetCurrentAutoShuffle())
         {
-            Debug.Log("Auto-shuffling board...");
+            Debug.Log("Deadlock detected!Auto-shuffling board...");
             board.ShuffleBoard();
         }
     }
@@ -346,7 +346,7 @@ public class LevelManager : MonoBehaviour
         {
             EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted;
             EventManager.Instance.OnDeadlock -= OnDeadlock;
-            EventManager.Instance.OnBoardStable -= OnBoardStable;
+            // EventManager.Instance.OnBoardStable -= OnBoardStable;
         }
     }
 }
