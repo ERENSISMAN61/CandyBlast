@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
 
     [BoxGroup("Level Data")]
     [SerializeField, LabelText("All Levels")]
-    [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "LevelName")]
+    [ListDrawerSettings(ShowIndexLabels = true)]
     private LevelData[] allLevels;
 
     [BoxGroup("Level Data")]

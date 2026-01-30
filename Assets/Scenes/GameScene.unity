@@ -1708,14 +1708,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c71b62f6680af1049b956c1ee0cd678e, type: 2}
   - {fileID: 11400000, guid: 695f9c95e1d89b34bb67f223bd9f4265, type: 2}
   startingLevelIndex: 0
-  rows: 10
-  columns: 10
-  colorCount: 6
-  thresholdA: 4
-  thresholdB: 7
-  thresholdC: 9
-  minGroupSize: 2
-  autoShuffleOnDeadlock: 1
   board: {fileID: 153077231}
 --- !u!1 &587947307
 GameObject:
@@ -2779,6 +2771,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015979577}
   m_CullTransparentMesh: 1
+--- !u!1 &1079797598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1079797599}
+  m_Layer: 0
+  m_Name: Author (EREN_SISMAN)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1079797599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079797598}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -396.39655, y: 587.8207, z: 1579.1276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1103268840
 GameObject:
   m_ObjectHideFlags: 0
@@ -5584,6 +5607,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1079797599}
   - {fileID: 519420032}
   - {fileID: 1417898085}
   - {fileID: 1605979666}
