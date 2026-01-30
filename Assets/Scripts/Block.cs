@@ -39,7 +39,7 @@ public class Block : MonoBehaviour
     {
         if (spriteRenderer != null)
         {
-            // y càng cao, sorting order càng yüksek (üstteki bloklar önde)
+
             spriteRenderer.sortingOrder = GridPosition.y;
         }
     }
@@ -54,10 +54,10 @@ public class Block : MonoBehaviour
         if (spriteRenderer != null)
             spriteRenderer.sprite = sprite;
 
-        // set sorting order based on grid position
+
         UpdateSortingOrder();
 
-        // start with small scale for pop-in effect during fall
+        // start small scale for pop effect
         transform.localScale = Vector3.one * 0.8f;
     }
 
@@ -89,7 +89,7 @@ public class Block : MonoBehaviour
         moveTween?.Kill();
         scaleTween?.Kill();
 
-        // move and scale to full size simultaneously for smooth spawn
+
         moveTween = transform.DOMove(worldPos, moveDuration)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() =>
@@ -98,7 +98,7 @@ public class Block : MonoBehaviour
                 onComplete?.Invoke();
             });
 
-        // scale to full size while moving (only if not already full scale)
+        // scale to full size while moving 
         if (transform.localScale != Vector3.one)
         {
             scaleTween = transform.DOScale(Vector3.one, moveDuration * 0.7f)
@@ -108,23 +108,23 @@ public class Block : MonoBehaviour
 
     public void Blast(System.Action onComplete = null)
     {
-        // kill any ongoing animations
+
         moveTween?.Kill();
         scaleTween?.Kill();
 
-        // play particle effect
+
         if (blastParticle != null)
         {
             blastParticle.Play();
         }
 
-        // scale down animation
+
         scaleTween = transform.DOScale(Vector3.zero, scaleDuration)
             .SetEase(Ease.InBack)
             .OnComplete(() =>
             {
                 onComplete?.Invoke();
-                // return to pool (will be implemented in BlockPool)
+                // return to pool 
                 gameObject.SetActive(false);
             });
     }
@@ -151,7 +151,7 @@ public class Block : MonoBehaviour
         if (spriteRenderer != null)
             spriteRenderer.color = Color.white;
 
-        // reset transform completely
+
         transform.localScale = Vector3.one;
         transform.rotation = Quaternion.identity;
     }

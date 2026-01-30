@@ -10,7 +10,6 @@ public class BlockPool : MonoBehaviour
     private Queue<Block> availableBlocks = new Queue<Block>();
     private List<Block> activeBlocks = new List<Block>();
 
-    // reusable list to avoid GC during ClearAll
     private List<Block> tempBlocksList = new List<Block>();
 
     private void Awake()
@@ -18,7 +17,7 @@ public class BlockPool : MonoBehaviour
         if (poolParent == null)
             poolParent = transform;
 
-        // pre-warm pool
+        // pre warm pool
         for (int i = 0; i < initialPoolSize; i++)
         {
             CreateNewBlock();
@@ -47,10 +46,10 @@ public class BlockPool : MonoBehaviour
     {
         if (block == null) return;
 
-        // reset before deactivating to ensure clean state
+
         block.ResetBlock();
 
-        // reset transform to default position
+
         block.transform.localPosition = Vector3.zero;
         block.transform.localScale = Vector3.one;
 
@@ -71,7 +70,6 @@ public class BlockPool : MonoBehaviour
 
     public void ClearAll()
     {
-        // reuse temp list to avoid allocation
         tempBlocksList.Clear();
         tempBlocksList.AddRange(activeBlocks);
 

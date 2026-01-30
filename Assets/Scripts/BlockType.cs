@@ -12,8 +12,8 @@ public enum BlockType
 
 public enum IconVariant
 {
-    Default = 0,  // Less than A+1
-    A = 1,        // More than A
-    B = 2,        // More than B
-    C = 3         // More than C
+    Default = 0,
+    A = 1,
+    B = 2,
+    C = 3
 }

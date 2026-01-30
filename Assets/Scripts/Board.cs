@@ -66,26 +66,26 @@ public class Board : MonoBehaviour
             }
         }
 
-        // wait for blocks to be created, then check for deadlock
+        // wait and check for deadlock
         yield return StartCoroutine(InitializeBoardWithDeadlockCheck());
     }
 
     private IEnumerator InitializeBoardWithDeadlockCheck()
     {
-        // wait for all blocks to be created and positioned
+
         yield return new WaitForSeconds(0.8f);
 
-        // check if board has any valid groups
+
         if (!groupDetector.HasAnyValidGroups())
         {
             Debug.Log("Initial board created with deadlock - fixing...");
             ForceCreateValidGroup();
 
-            // wait for blocks to move to new positions
+
             yield return new WaitForSeconds(0.3f);
         }
 
-        // update icons after ensuring valid groups exist
+
         UpdateAllIcons();
     }
 
@@ -171,7 +171,7 @@ public class Board : MonoBehaviour
         if (EventManager.Instance != null)
             EventManager.Instance.TriggerBlocksBlasted(count);
 
-        // apply gravity and fill after blast
+
         StartCoroutine(ApplyGravityAndFill());
 
         return count;
@@ -227,7 +227,7 @@ public class Board : MonoBehaviour
 
     private IEnumerator FillEmptySpaces()
     {
-        // don't fill if level is no longer active (win/fail)
+        // dont fill if level isnot active
         if (!IsLevelActive)
         {
             IsAnimating = false;
@@ -246,7 +246,7 @@ public class Board : MonoBehaviour
             }
         }
 
-        // wait for all blocks to finish moving
+        // wait for all moving
         yield return new WaitForSeconds(0.5f);
 
         // update icons
@@ -260,8 +260,6 @@ public class Board : MonoBehaviour
     {
         var allGroups = groupDetector.FindAllGroups();
 
-        // find largest group for auto-blast
-        // for now, just check for deadlock
 
         IsAnimating = false;
         if (EventManager.Instance != null)
@@ -323,7 +321,6 @@ public class Board : MonoBehaviour
     {
         IsAnimating = true;
 
-        // reuse existing lists 
         shuffleBlocksList.Clear();
         shufflePositionsList.Clear();
 
@@ -340,7 +337,6 @@ public class Board : MonoBehaviour
                     shuffleBlocksList.Add(block);
                     shufflePositionsList.Add(pos);
 
-                    // reset to default icon before shuffle
                     Sprite defaultSprite = spriteManager.GetDefaultSprite(block.BlockType);
                     block.UpdateIcon(1, IconVariant.Default, defaultSprite);
                 }

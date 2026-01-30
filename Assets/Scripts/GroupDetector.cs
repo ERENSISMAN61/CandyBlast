@@ -7,12 +7,10 @@ public class GroupDetector
     private HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
     private List<Vector2Int> currentGroup = new List<Vector2Int>();
 
-    // reusable collections for FindAllGroups to avoid GC
     private Dictionary<int, List<List<Vector2Int>>> allGroupsDict = new Dictionary<int, List<List<Vector2Int>>>();
     private HashSet<Vector2Int> globalVisited = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> processedBlocks = new HashSet<Vector2Int>();
 
-    // directions for flood fill (up, down, left, right)
     private static readonly Vector2Int[] directions = new Vector2Int[]
     {
         new Vector2Int(0, 1),   // Up
@@ -139,7 +137,7 @@ public class GroupDetector
             }
         }
 
-        // reset single blocks (not in any group) to default icon
+        // reset single blocks to default icon
         for (int x = 0; x < board.Columns; x++)
         {
             for (int y = 0; y < board.Rows; y++)

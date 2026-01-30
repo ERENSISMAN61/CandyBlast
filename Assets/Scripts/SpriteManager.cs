@@ -81,7 +81,7 @@ public class SpriteManager : ScriptableObject
     {
         colorSprites.Clear();
 
-        // define the sprite names based on your texture files
+
         string[] colors = { "Blue", "Green", "Pink", "Purple", "Red", "Yellow" };
 
         foreach (string color in colors)
@@ -91,7 +91,7 @@ public class SpriteManager : ScriptableObject
                 blockType = (BlockType)System.Enum.Parse(typeof(BlockType), color)
             };
 
-            // load sprites from Resources or Assets
+
             sprites.defaultSprite = Resources.Load<Sprite>($"Textures/{color}_Default");
             sprites.variantA = Resources.Load<Sprite>($"Textures/{color}_A");
             sprites.variantB = Resources.Load<Sprite>($"Textures/{color}_B");

@@ -136,11 +136,7 @@ public class LevelData : ScriptableObject
         };
     }
 
-    private void UpdateDifficultyColor()
-    {
-        // this method is called when difficulty changes in inspector
-        // can be used for visual feedback
-    }
+
 
     [Button("Copy From Example 1", ButtonSizes.Medium)]
     [BoxGroup("Quick Setup")]

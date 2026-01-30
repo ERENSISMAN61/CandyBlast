@@ -23,7 +23,7 @@ public class InputManager : MonoBehaviour
             return;
         }
 
-        // don't allow input if board is animating, processing, or level is not active
+        // don't allow input this conditions
         if (board.IsAnimating || isProcessingInput || !board.IsLevelActive)
             return;
 
@@ -32,7 +32,6 @@ public class InputManager : MonoBehaviour
 
     private void HandleInput()
     {
-        // mouse/Touch down - show preview
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -44,7 +43,7 @@ public class InputManager : MonoBehaviour
             {
                 var group = board.GetGroupAt(gridPos);
 
-                if (group != null && group.Count >= 2) // minimum group size
+                if (group != null && group.Count >= 2)
                 {
                     currentHighlightedGroup = group;
                     board.HighlightGroup(group, true);
@@ -52,7 +51,6 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // mouse/Touch up - blast group
         if (Input.GetMouseButtonUp(0))
         {
             if (currentHighlightedGroup != null && currentHighlightedGroup.Count >= 2)
@@ -68,7 +66,7 @@ public class InputManager : MonoBehaviour
             currentHighlightedGroup = null;
         }
 
-        // mouse moved - update preview
+
         if (Input.GetMouseButton(0) && currentHighlightedGroup != null)
         {
             Vector3 worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -82,7 +80,7 @@ public class InputManager : MonoBehaviour
 
                 if (newGroup != null && newGroup.Count >= 2)
                 {
-                    // if different group, update highlight
+
                     if (!GroupsAreEqual(currentHighlightedGroup, newGroup))
                     {
                         board.HighlightGroup(currentHighlightedGroup, false);
@@ -93,7 +91,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // cancel on right click or escape
+
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (currentHighlightedGroup != null)

@@ -132,13 +132,13 @@ public class LevelManager : MonoBehaviour
         remainingMoves = currentLevelData != null ? currentLevelData.MaxMoves : 0;
         elapsedTime = 0f;
 
-        // update current level name
+
         currentLevelName = currentLevelData != null ? currentLevelData.LevelName : "Manual Config";
 
         // configure board with current settings
         board.SetBoardParameters(GetCurrentRows(), GetCurrentColumns(), GetCurrentColorCount());
 
-        // subscribe to board events
+
         EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted; // unsubscribe first to avoid duplicates
         EventManager.Instance.OnDeadlock -= OnDeadlock;
         EventManager.Instance.OnBoardStable -= OnBoardStable;
@@ -190,7 +190,7 @@ public class LevelManager : MonoBehaviour
     [Button("Restart Level", ButtonSizes.Medium)]
     public void RestartLevel()
     {
-        // cleanup before restarting
+
         if (board != null)
         {
             board.ClearBoard();
@@ -226,7 +226,7 @@ public class LevelManager : MonoBehaviour
         {
             remainingMoves--;
 
-            // check for fail condition (no moves left)
+            // check for fail condition
             if (remainingMoves <= 0 && remainingTargetScore > 0)
             {
                 remainingMoves = 0;
@@ -284,7 +284,7 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        // track elapsed time
+
         if (board != null && !board.IsAnimating)
         {
             elapsedTime += Time.deltaTime;
