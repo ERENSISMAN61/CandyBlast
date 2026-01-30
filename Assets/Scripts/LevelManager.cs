@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
@@ -144,17 +145,33 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        // Periodic GC every 5 levels to prevent memory buildup
-        if ((CurrentLevelIndex + 1) % 5 == 0)
-        {
-            System.GC.Collect();
-#if UNITY_EDITOR
-            Debug.Log($"<color=cyan>🗑 Auto GC triggered at level {CurrentLevelIndex + 1}</color>");
-#endif
-        }
-
         int nextIndex = (CurrentLevelIndex + 1) % allLevels.Length;
         LoadLevel(nextIndex);
+    }
+
+
+    public IEnumerator PerformCleanup()
+    {
+#if UNITY_EDITOR
+        Debug.Log($"<color=cyan>🗑 Auto cleanup triggered at level {CurrentLevelIndex + 1}</color>");
+#endif
+
+
+        AsyncOperation asyncOp = Resources.UnloadUnusedAssets();
+
+        yield return asyncOp;
+
+        System.GC.Collect();
+
+
+        yield return null;
+
+    }
+
+
+    public bool NeedsCleanup()
+    {
+        return (CurrentLevelIndex + 1) % 5 == 0;
     }
 
     [Button("Restart Level", ButtonSizes.Medium)]

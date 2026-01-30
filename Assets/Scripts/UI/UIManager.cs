@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -144,24 +145,42 @@ public class UIManager : MonoBehaviour
         if (nextButtonClicked)
             return;
         nextButtonClicked = true;
-        // Hide win panel
+
+        StartCoroutine(NextLevelSequence());
+    }
+
+    private IEnumerator NextLevelSequence()
+    {
+
+        if (LevelManager.Instance != null && LevelManager.Instance.NeedsCleanup())
+        {
+            yield return LevelManager.Instance.PerformCleanup();
+        }
+
+        // Then play hide animation
         if (winPanel != null)
         {
+            bool animationComplete = false;
 
             winBgImage.DOColor(panelTransparentBgColor, 0.4f);
             winText.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack);
             winMidPanel.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
             {
                 winPanel.SetActive(false);
-                nextButtonClicked = false;
+                animationComplete = true;
             });
+
+            // Wait for animation to complete
+            yield return new WaitUntil(() => animationComplete);
         }
 
-        // Load next level
+        // Finally, load next level
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.LoadNextLevel();
         }
+
+        nextButtonClicked = false;
     }
 
     public void RestartButton()
