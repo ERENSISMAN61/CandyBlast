@@ -157,7 +157,7 @@ public class UIManager : MonoBehaviour
             yield return LevelManager.Instance.PerformCleanup();
         }
 
-        // Then play hide animation
+
         if (winPanel != null)
         {
             bool animationComplete = false;
@@ -170,11 +170,11 @@ public class UIManager : MonoBehaviour
                 animationComplete = true;
             });
 
-            // Wait for animation to complete
+
             yield return new WaitUntil(() => animationComplete);
         }
 
-        // Finally, load next level
+
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.LoadNextLevel();
