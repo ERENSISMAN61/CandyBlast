@@ -1,9 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-/// <summary>
-/// Handles player input for clicking/tapping blocks
-/// Performance optimized: Uses raycasts efficiently
-/// </summary>
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private Board board;
@@ -27,19 +23,16 @@ public class InputManager : MonoBehaviour
             return;
         }
 
-        // Don't allow input if board is animating, processing, or level is not active
+        // don't allow input if board is animating, processing, or level is not active
         if (board.IsAnimating || isProcessingInput || !board.IsLevelActive)
             return;
 
         HandleInput();
     }
 
-    /// <summary>
-    /// Handle mouse/touch input
-    /// </summary>
     private void HandleInput()
     {
-        // Mouse/Touch down - show preview
+        // mouse/Touch down - show preview
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -51,7 +44,7 @@ public class InputManager : MonoBehaviour
             {
                 var group = board.GetGroupAt(gridPos);
 
-                if (group != null && group.Count >= 2) // Minimum group size
+                if (group != null && group.Count >= 2) // minimum group size
                 {
                     currentHighlightedGroup = group;
                     board.HighlightGroup(group, true);
@@ -59,7 +52,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // Mouse/Touch up - blast group
+        // mouse/Touch up - blast group
         if (Input.GetMouseButtonUp(0))
         {
             if (currentHighlightedGroup != null && currentHighlightedGroup.Count >= 2)
@@ -68,14 +61,14 @@ public class InputManager : MonoBehaviour
                 board.BlastGroup(currentHighlightedGroup);
                 isProcessingInput = true;
 
-                // Reset after board stabilizes
+                // reset after board stabilizes
                 Invoke(nameof(ResetInputProcessing), 0.5f);
             }
 
             currentHighlightedGroup = null;
         }
 
-        // Mouse moved - update preview
+        // mouse moved - update preview
         if (Input.GetMouseButton(0) && currentHighlightedGroup != null)
         {
             Vector3 worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -89,7 +82,7 @@ public class InputManager : MonoBehaviour
 
                 if (newGroup != null && newGroup.Count >= 2)
                 {
-                    // If different group, update highlight
+                    // if different group, update highlight
                     if (!GroupsAreEqual(currentHighlightedGroup, newGroup))
                     {
                         board.HighlightGroup(currentHighlightedGroup, false);
@@ -100,7 +93,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // Cancel on right click or escape
+        // cancel on right click or escape
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (currentHighlightedGroup != null)
@@ -116,9 +109,6 @@ public class InputManager : MonoBehaviour
         isProcessingInput = false;
     }
 
-    /// <summary>
-    /// Compare two groups for equality
-    /// </summary>
     private bool GroupsAreEqual(List<Vector2Int> group1, List<Vector2Int> group2)
     {
         if (group1.Count != group2.Count)

@@ -1,10 +1,6 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-/// <summary>
-/// Scriptable Object for level configuration
-/// Each instance represents one playable level
-/// </summary>
 [CreateAssetMenu(fileName = "Level_", menuName = "CandyBlast/Level Data", order = 1)]
 public class LevelData : ScriptableObject
 {
@@ -80,7 +76,7 @@ public class LevelData : ScriptableObject
     [PropertyOrder(100)]
     private string difficultyDisplay => GetDifficultyString();
 
-    // Properties for external access
+    // properties for external access
     public string LevelName => levelName;
     public string Description => description;
     public int LevelNumber => levelNumber;
@@ -142,8 +138,8 @@ public class LevelData : ScriptableObject
 
     private void UpdateDifficultyColor()
     {
-        // This method is called when difficulty changes in inspector
-        // Can be used for visual feedback
+        // this method is called when difficulty changes in inspector
+        // can be used for visual feedback
     }
 
     [Button("Copy From Example 1", ButtonSizes.Medium)]
@@ -174,9 +170,6 @@ public class LevelData : ScriptableObject
         difficulty = 3;
     }
 
-    /// <summary>
-    /// Get a summary of this level's configuration
-    /// </summary>
     public string GetLevelSummary()
     {
         return $"{levelName} (#{levelNumber})\n" +

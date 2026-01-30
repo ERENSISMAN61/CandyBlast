@@ -4,11 +4,6 @@ using System.Collections;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 
-/// <summary>
-/// Main board/grid management system
-/// Performance optimized with 2D array for O(1) access
-/// Memory efficient: Uses object pooling
-/// </summary>
 public class Board : MonoBehaviour
 {
     [Title("Board Settings")]
@@ -27,16 +22,16 @@ public class Board : MonoBehaviour
     [Title("Animation")]
     [SerializeField] private float fallDelay = 0.05f;
 
-    // Grid data structure - O(1) access time
+
     private Block[,] grid;
     private GroupDetector groupDetector;
 
-    // Reusable collections to avoid GC - allocated once, reused via Clear()
+
     private List<Block> shuffleBlocksList = new List<Block>();
     private List<Vector2Int> shufflePositionsList = new List<Vector2Int>();
     private Dictionary<BlockType, List<Vector2Int>> blocksByTypeDict = new Dictionary<BlockType, List<Vector2Int>>();
 
-    // Properties
+    // properties
     public int Rows => rows;
     public int Columns => columns;
     public int ColorCount => colorCount;
@@ -49,9 +44,6 @@ public class Board : MonoBehaviour
         groupDetector = new GroupDetector(this);
     }
 
-    /// <summary>
-    /// Initialize the board with random blocks
-    /// </summary>
     public void InitializeBoard()
     {
         IsLevelActive = true;
@@ -74,35 +66,29 @@ public class Board : MonoBehaviour
             }
         }
 
-        // Wait for blocks to be created, then check for deadlock
+        // wait for blocks to be created, then check for deadlock
         yield return StartCoroutine(InitializeBoardWithDeadlockCheck());
     }
 
-    /// <summary>
-    /// Check for deadlock after initial board creation and fix if needed
-    /// </summary>
     private IEnumerator InitializeBoardWithDeadlockCheck()
     {
-        // Wait for all blocks to be created and positioned
+        // wait for all blocks to be created and positioned
         yield return new WaitForSeconds(0.8f);
 
-        // Check if board has any valid groups
+        // check if board has any valid groups
         if (!groupDetector.HasAnyValidGroups())
         {
             Debug.Log("Initial board created with deadlock - fixing...");
             ForceCreateValidGroup();
 
-            // Wait for blocks to move to new positions
+            // wait for blocks to move to new positions
             yield return new WaitForSeconds(0.3f);
         }
 
-        // Update icons after ensuring valid groups exist
+        // update icons after ensuring valid groups exist
         UpdateAllIcons();
     }
 
-    /// <summary>
-    /// Create a new block at grid position
-    /// </summary>
     private void CreateBlockAt(int x, int y)
     {
         Block block = blockPool.GetBlock();
@@ -112,19 +98,15 @@ public class Board : MonoBehaviour
         Vector2Int gridPos = new Vector2Int(x, y);
         Vector3 worldPos = GridToWorldPosition(gridPos);
 
-        block.transform.position = worldPos + Vector3.up * (rows + 2); // Start from above
+        block.transform.position = worldPos + Vector3.up * (rows + 2); // start from above
         block.Initialize(randomType, sprite, gridPos);
 
         grid[x, y] = block;
 
-        // Animate fall
+        // animate fall
         block.MoveTo(gridPos, worldPos);
     }
 
-    /// <summary>
-    /// Get block at grid position
-    /// O(1) access time
-    /// </summary>
     public Block GetBlock(Vector2Int pos)
     {
         if (!IsValidPosition(pos))
@@ -133,25 +115,16 @@ public class Board : MonoBehaviour
         return grid[pos.x, pos.y];
     }
 
-    /// <summary>
-    /// Get block at grid position
-    /// </summary>
     public Block GetBlock(int x, int y)
     {
         return GetBlock(new Vector2Int(x, y));
     }
 
-    /// <summary>
-    /// Check if position is within board bounds
-    /// </summary>
     public bool IsValidPosition(Vector2Int pos)
     {
         return pos.x >= 0 && pos.x < columns && pos.y >= 0 && pos.y < rows;
     }
 
-    /// <summary>
-    /// Convert grid position to world position
-    /// </summary>
     public Vector3 GridToWorldPosition(Vector2Int gridPos)
     {
         float totalWidth = columns * (cellSize + spacing);
@@ -163,9 +136,6 @@ public class Board : MonoBehaviour
         return new Vector3(x, y, 0) + transform.position;
     }
 
-    /// <summary>
-    /// Convert world position to grid position
-    /// </summary>
     public Vector2Int WorldToGridPosition(Vector3 worldPos)
     {
         Vector3 localPos = worldPos - transform.position;
@@ -179,10 +149,6 @@ public class Board : MonoBehaviour
         return new Vector2Int(x, y);
     }
 
-    /// <summary>
-    /// Blast a group of blocks
-    /// Returns number of blocks blasted
-    /// </summary>
     public int BlastGroup(List<Vector2Int> group)
     {
         if (group == null || group.Count < 2)
@@ -191,7 +157,7 @@ public class Board : MonoBehaviour
         IsAnimating = true;
         int count = group.Count;
 
-        // Blast all blocks in group
+        // blast all blocks in group
         foreach (var pos in group)
         {
             Block block = GetBlock(pos);
@@ -205,19 +171,15 @@ public class Board : MonoBehaviour
         if (EventManager.Instance != null)
             EventManager.Instance.TriggerBlocksBlasted(count);
 
-        // Apply gravity and fill after blast
+        // apply gravity and fill after blast
         StartCoroutine(ApplyGravityAndFill());
 
         return count;
     }
 
-    /// <summary>
-    /// Apply gravity: Move blocks down to fill empty spaces
-    /// CPU optimized: Processes column by column
-    /// </summary>
     private IEnumerator ApplyGravityAndFill()
     {
-        yield return new WaitForSeconds(0.3f); // Wait for blast animation
+        yield return new WaitForSeconds(0.3f); // wait for blast animation
 
         bool hasMovement = true;
 
@@ -225,20 +187,20 @@ public class Board : MonoBehaviour
         {
             hasMovement = false;
 
-            // Process each column bottom to top
+            // process each column bottom to top
             for (int x = 0; x < columns; x++)
             {
                 for (int y = 0; y < rows - 1; y++)
                 {
-                    // If current cell is empty
+                    // if current cell is empty
                     if (grid[x, y] == null)
                     {
-                        // Look for block above
+                        // look for block above
                         for (int yAbove = y + 1; yAbove < rows; yAbove++)
                         {
                             if (grid[x, yAbove] != null)
                             {
-                                // Move block down
+                                // move block down
                                 Block block = grid[x, yAbove];
                                 Vector2Int newPos = new Vector2Int(x, y);
                                 Vector3 worldPos = GridToWorldPosition(newPos);
@@ -259,16 +221,13 @@ public class Board : MonoBehaviour
             yield return new WaitForSeconds(fallDelay);
         }
 
-        // Fill empty spaces with new blocks
+        // fill empty spaces with new blocks
         yield return StartCoroutine(FillEmptySpaces());
     }
 
-    /// <summary>
-    /// Fill empty spaces with new blocks from top
-    /// </summary>
     private IEnumerator FillEmptySpaces()
     {
-        // Don't fill if level is no longer active (win/fail)
+        // don't fill if level is no longer active (win/fail)
         if (!IsLevelActive)
         {
             IsAnimating = false;
@@ -287,31 +246,28 @@ public class Board : MonoBehaviour
             }
         }
 
-        // Wait for all blocks to finish moving
+        // wait for all blocks to finish moving
         yield return new WaitForSeconds(0.5f);
 
-        // Update icons
+        // update icons
         UpdateAllIcons();
 
-        // Check for cascade (auto-blast chains)
+        // check for cascade (auto-blast chains)
         yield return StartCoroutine(CheckForCascade());
     }
 
-    /// <summary>
-    /// Check for automatic cascade matches
-    /// </summary>
     private IEnumerator CheckForCascade()
     {
         var allGroups = groupDetector.FindAllGroups();
 
-        // Find largest group for auto-blast (optional feature)
-        // For now, just check for deadlock
+        // find largest group for auto-blast
+        // for now, just check for deadlock
 
         IsAnimating = false;
         if (EventManager.Instance != null)
             EventManager.Instance.TriggerBoardStable();
 
-        // Check for deadlock
+        // check for deadlock
         if (!groupDetector.HasAnyValidGroups())
         {
             if (EventManager.Instance != null)
@@ -321,18 +277,12 @@ public class Board : MonoBehaviour
         yield return null;
     }
 
-    /// <summary>
-    /// Get random block type based on color count
-    /// </summary>
     private BlockType GetRandomBlockType()
     {
         int randomIndex = Random.Range(0, colorCount);
         return (BlockType)randomIndex;
     }
 
-    /// <summary>
-    /// Update all block icons based on current groups
-    /// </summary>
     public void UpdateAllIcons()
     {
         if (LevelManager.Instance != null)
@@ -352,17 +302,11 @@ public class Board : MonoBehaviour
         UpdateAllIcons();
     }
 
-    /// <summary>
-    /// Get group of blocks at position
-    /// </summary>
     public List<Vector2Int> GetGroupAt(Vector2Int pos)
     {
         return groupDetector.FindGroup(pos);
     }
 
-    /// <summary>
-    /// Highlight a group of blocks
-    /// </summary>
     public void HighlightGroup(List<Vector2Int> group, bool highlight)
     {
         foreach (var pos in group)
@@ -375,23 +319,15 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Smart shuffle algorithm with guaranteed valid group
-    /// Uses deterministic approach - no blind retry loops
-    /// Algorithm:
-    /// 1. Shuffle all blocks randomly (Fisher-Yates)
-    /// 2. Place blocks on grid
-    /// 3. If no valid groups exist, force create one by strategic swap
-    /// </summary>
     public void ShuffleBoard()
     {
         IsAnimating = true;
 
-        // Reuse existing lists - avoid GC
+        // reuse existing lists 
         shuffleBlocksList.Clear();
         shufflePositionsList.Clear();
 
-        // Collect all blocks and positions
+        // collect all blocks and positions
         for (int x = 0; x < columns; x++)
         {
             for (int y = 0; y < rows; y++)
@@ -404,14 +340,14 @@ public class Board : MonoBehaviour
                     shuffleBlocksList.Add(block);
                     shufflePositionsList.Add(pos);
 
-                    // Reset to default icon before shuffle
+                    // reset to default icon before shuffle
                     Sprite defaultSprite = spriteManager.GetDefaultSprite(block.BlockType);
                     block.UpdateIcon(1, IconVariant.Default, defaultSprite);
                 }
             }
         }
 
-        // Fisher-Yates shuffle - single pass, O(n)
+        // fisher-Yates shuffle
         for (int i = shuffleBlocksList.Count - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
@@ -420,7 +356,7 @@ public class Board : MonoBehaviour
             shuffleBlocksList[j] = temp;
         }
 
-        // Place blocks in shuffled positions
+        // place blocks in shuffled positions
         for (int i = 0; i < shuffleBlocksList.Count; i++)
         {
             Vector2Int pos = shufflePositionsList[i];
@@ -433,7 +369,7 @@ public class Board : MonoBehaviour
             block.MoveTo(pos, worldPos);
         }
 
-        // Guarantee at least one valid group exists
+        // guarantee at least one valid group exists
         if (!groupDetector.HasAnyValidGroups())
         {
             ForceCreateValidGroup();
@@ -443,14 +379,9 @@ public class Board : MonoBehaviour
         StartCoroutine(FinishShuffle());
     }
 
-    /// <summary>
-    /// Deterministically creates at least one valid group on the board
-    /// Strategy: Find blocks of same color and swap them to be adjacent
-    /// This guarantees a solvable board without random retries
-    /// </summary>
     private void ForceCreateValidGroup()
     {
-        // Group blocks by type - reuse dictionary to avoid GC
+        // group blocks by type 
         blocksByTypeDict.Clear();
         foreach (var list in blocksByTypeDict.Values)
         {
@@ -474,21 +405,21 @@ public class Board : MonoBehaviour
             }
         }
 
-        // Find a color with at least 2 blocks
+        // find a color with at least 2 blocks
         foreach (var kvp in blocksByTypeDict)
         {
             if (kvp.Value.Count >= 2)
             {
-                // Get two positions of this color
+                // get two positions of this color
                 Vector2Int pos1 = kvp.Value[0];
                 Vector2Int pos2 = kvp.Value[1];
 
-                // Find two adjacent positions on the board
+                // find two adjacent positions on the board
                 Vector2Int adjacentPos1 = Vector2Int.zero;
                 Vector2Int adjacentPos2 = Vector2Int.zero;
                 bool foundAdjacent = false;
 
-                // Try to find horizontal adjacency
+                // try to find horizontal adjacency
                 for (int y = 0; y < rows && !foundAdjacent; y++)
                 {
                     for (int x = 0; x < columns - 1 && !foundAdjacent; x++)
@@ -499,7 +430,7 @@ public class Board : MonoBehaviour
                     }
                 }
 
-                // If no horizontal found, try vertical
+                // if no horizontal found, try vertical
                 if (!foundAdjacent)
                 {
                     for (int x = 0; x < columns && !foundAdjacent; x++)
@@ -515,19 +446,19 @@ public class Board : MonoBehaviour
 
                 if (foundAdjacent)
                 {
-                    // Swap blocks to create adjacent group
+                    // swap blocks to create adjacent group
                     Block block1 = GetBlock(pos1);
                     Block block2 = GetBlock(pos2);
                     Block targetBlock1 = GetBlock(adjacentPos1);
                     Block targetBlock2 = GetBlock(adjacentPos2);
 
-                    // Swap in grid
+                    // swap in grid
                     grid[pos1.x, pos1.y] = targetBlock1;
                     grid[pos2.x, pos2.y] = targetBlock2;
                     grid[adjacentPos1.x, adjacentPos1.y] = block1;
                     grid[adjacentPos2.x, adjacentPos2.y] = block2;
 
-                    // Update block positions and move them
+                    // update block positions and move them
                     if (targetBlock1 != null)
                     {
                         targetBlock1.GridPosition = pos1;
@@ -545,7 +476,7 @@ public class Board : MonoBehaviour
                     block2.GridPosition = adjacentPos2;
                     block2.MoveTo(adjacentPos2, GridToWorldPosition(adjacentPos2));
 
-                    return; // Successfully created a valid group
+                    return; // successfully created a valid group
                 }
             }
         }
@@ -553,10 +484,10 @@ public class Board : MonoBehaviour
 
     private IEnumerator FinishShuffle()
     {
-        // Wait for blocks to finish moving
+        // wait for blocks to finish moving
         yield return new WaitForSeconds(0.8f);
 
-        // Update all icons based on new groups
+        // update all icons based on new groups
         UpdateAllIcons();
 
         Debug.Log("Shuffle complete - Icons updated");
@@ -566,9 +497,6 @@ public class Board : MonoBehaviour
             EventManager.Instance.TriggerBoardStable();
     }
 
-    /// <summary>
-    /// Clear all blocks from board
-    /// </summary>
     public void ClearBoard()
     {
 
@@ -586,18 +514,12 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Stop level activity - prevents new blocks from spawning
-    /// </summary>
     public void StopLevel()
     {
         IsLevelActive = false;
         IsAnimating = false;
     }
 
-    /// <summary>
-    /// Set board parameters (for level configuration)
-    /// </summary>
     public void SetBoardParameters(int newRows, int newColumns, int newColorCount)
     {
         rows = Mathf.Clamp(newRows, 2, 10);

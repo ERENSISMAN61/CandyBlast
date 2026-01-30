@@ -3,10 +3,6 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 
-/// <summary>
-/// Custom editor window for creating and managing levels
-/// Access via: Window > CandyBlast > Level Editor
-/// </summary>
 public class LevelEditorWindow : EditorWindow
 {
     private Vector2 scrollPosition;
@@ -278,7 +274,7 @@ public class LevelEditorWindow : EditorWindow
     {
         string folderPath = "Assets/Resources/Levels";
 
-        // Create folder if it doesn't exist
+        // create folder if it doesn't exist
         if (!AssetDatabase.IsValidFolder("Assets/Resources"))
         {
             AssetDatabase.CreateFolder("Assets", "Resources");
@@ -288,22 +284,22 @@ public class LevelEditorWindow : EditorWindow
             AssetDatabase.CreateFolder("Assets/Resources", "Levels");
         }
 
-        // Create the level asset
+        // create the level asset
         LevelData newLevel = ScriptableObject.CreateInstance<LevelData>();
 
         string fileName = $"Level_{newLevelNumber:000}_{newLevelName.Replace(" ", "_")}.asset";
         string path = $"{folderPath}/{fileName}";
 
-        // Make sure the path is unique
+        // make sure the path is unique
         path = AssetDatabase.GenerateUniqueAssetPath(path);
 
         AssetDatabase.CreateAsset(newLevel, path);
         AssetDatabase.SaveAssets();
 
-        // Refresh the list
+        // refresh the list
         RefreshLevelList();
 
-        // Select the new level
+        // select the new level
         selectedLevel = newLevel;
         Selection.activeObject = newLevel;
         EditorGUIUtility.PingObject(newLevel);
@@ -361,7 +357,7 @@ public class LevelEditorWindow : EditorWindow
         LevelManager levelManager = FindObjectOfType<LevelManager>();
         if (levelManager != null)
         {
-            // This would require adding a method to LevelManager to load a specific LevelData
+            // this would require adding a method to LevelManager to load a specific LevelData
             Debug.Log($"Testing level: {level.LevelName}");
             EditorUtility.DisplayDialog("Test Level",
                 $"Level testing feature coming soon!\n\nLevel: {level.LevelName}\nYou can manually assign this level to the LevelManager for now.",

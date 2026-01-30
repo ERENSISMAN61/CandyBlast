@@ -1,10 +1,6 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-/// <summary>
-/// Manages level configuration and game rules
-/// Singleton pattern for easy access
-/// </summary>
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
@@ -63,7 +59,7 @@ public class LevelManager : MonoBehaviour
     [Title("References")]
     [SerializeField] private Board board;
 
-    // Properties
+    // properties
     public int Rows => GetCurrentRows();
     public int Columns => GetCurrentColumns();
     public int ColorCount => GetCurrentColorCount();
@@ -74,7 +70,7 @@ public class LevelManager : MonoBehaviour
     public LevelData CurrentLevel => currentLevelData;
     public int CurrentLevelIndex { get; private set; }
 
-    // Game stats
+    // game stats
     [Title("Game Stats"), ReadOnly]
     [ShowInInspector] private int totalMoves = 0;
     [ShowInInspector] private int totalBlocksBlasted = 0;
@@ -87,7 +83,7 @@ public class LevelManager : MonoBehaviour
     public int RemainingTargetScore => remainingTargetScore;
     public int RemainingMoves => remainingMoves;
 
-    // Helper methods to get current level data
+    // helper methods to get current level data
     private int GetCurrentRows() => currentLevelData != null ? currentLevelData.Rows : rows;
     private int GetCurrentColumns() => currentLevelData != null ? currentLevelData.Columns : columns;
     private int GetCurrentColorCount() => currentLevelData != null ? currentLevelData.ColorCount : colorCount;
@@ -115,15 +111,12 @@ public class LevelManager : MonoBehaviour
 
     public void InitializeGame()
     {
-        // Load starting level if available
+        // load starting level if available
         if (allLevels != null && allLevels.Length > 0 && startingLevelIndex < allLevels.Length)
         {
             LoadLevel(startingLevelIndex);
         }
     }
-    /// <summary>
-    /// Initialize level with current parameters
-    /// </summary>
     private void InitializeLevel()
     {
         if (board == null)
@@ -132,28 +125,28 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        // Reset stats
+        // reset stats
         totalMoves = 0;
         totalBlocksBlasted = 0;
         remainingTargetScore = currentLevelData != null ? currentLevelData.TargetScore : 1000;
         remainingMoves = currentLevelData != null ? currentLevelData.MaxMoves : 0;
         elapsedTime = 0f;
 
-        // Update current level name
+        // update current level name
         currentLevelName = currentLevelData != null ? currentLevelData.LevelName : "Manual Config";
 
-        // Configure board with current settings
+        // configure board with current settings
         board.SetBoardParameters(GetCurrentRows(), GetCurrentColumns(), GetCurrentColorCount());
 
-        // Subscribe to board events
-        EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted; // Unsubscribe first to avoid duplicates
+        // subscribe to board events
+        EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted; // unsubscribe first to avoid duplicates
         EventManager.Instance.OnDeadlock -= OnDeadlock;
         EventManager.Instance.OnBoardStable -= OnBoardStable;
 
         EventManager.Instance.OnBlocksBlasted += OnBlocksBlasted;
         EventManager.Instance.OnDeadlock += OnDeadlock;
         EventManager.Instance.OnBoardStable += OnBoardStable;
-        // Initialize board
+        // initialize board
         board.InitializeBoard();
 
         string levelInfo = currentLevelData != null ? currentLevelData.GetLevelSummary() : "Manual Configuration";
@@ -162,9 +155,6 @@ public class LevelManager : MonoBehaviour
         EventManager.Instance.TriggerLevelStart();
     }
 
-    /// <summary>
-    /// Load a specific level by index
-    /// </summary>
     public void LoadLevel(int levelIndex)
     {
         if (allLevels == null || levelIndex < 0 || levelIndex >= allLevels.Length)
@@ -173,7 +163,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        // Cleanup before loading new level
+        // cleanup before loading new level
         if (board != null)
         {
             board.ClearBoard();
@@ -184,9 +174,6 @@ public class LevelManager : MonoBehaviour
         InitializeLevel();
     }
 
-    /// <summary>
-    /// Load next level
-    /// </summary>
     [Button("Load Next Level", ButtonSizes.Medium)]
     public void LoadNextLevel()
     {
@@ -200,13 +187,10 @@ public class LevelManager : MonoBehaviour
         LoadLevel(nextIndex);
     }
 
-    /// <summary>
-    /// Restart current level
-    /// </summary>
     [Button("Restart Level", ButtonSizes.Medium)]
     public void RestartLevel()
     {
-        // Cleanup before restarting
+        // cleanup before restarting
         if (board != null)
         {
             board.ClearBoard();
@@ -215,9 +199,6 @@ public class LevelManager : MonoBehaviour
         InitializeLevel();
     }
 
-    /// <summary>
-    /// Validate that thresholds are in correct order
-    /// </summary>
     private void ValidateThresholds()
     {
         if (thresholdA >= thresholdB)
@@ -233,9 +214,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Called when blocks are blasted
-    /// </summary>
     private void OnBlocksBlasted(int count)
     {
         totalMoves++;
@@ -243,17 +221,17 @@ public class LevelManager : MonoBehaviour
         int scoreGained = count * 10; // 10 points per block
         remainingTargetScore -= scoreGained;
 
-        // Decrease remaining moves if limit is set
+        // decrease remaining moves if limit is set
         if (currentLevelData != null && currentLevelData.MaxMoves > 0)
         {
             remainingMoves--;
 
-            // Check for fail condition (no moves left)
+            // check for fail condition (no moves left)
             if (remainingMoves <= 0 && remainingTargetScore > 0)
             {
                 remainingMoves = 0;
                 EventManager.Instance.TriggerUpdateUITexts();
-                board.StopLevel(); // Stop spawning new blocks
+                board.StopLevel(); // stop spawning new blocks
                 OnLevelFailed();
                 return;
             }
@@ -261,12 +239,12 @@ public class LevelManager : MonoBehaviour
 
         Debug.Log($"Blasted {count} blocks! Score gained: {scoreGained}, Remaining target: {remainingTargetScore}, Remaining moves: {remainingMoves}");
 
-        // Check if level is complete
+        // check if level is complete
         if (remainingTargetScore <= 0)
         {
             remainingTargetScore = 0;
-            EventManager.Instance.TriggerUpdateUITexts(); // Update UI before stopping
-            board.StopLevel(); // Stop spawning new blocks
+            EventManager.Instance.TriggerUpdateUITexts(); // update UI before stopping
+            board.StopLevel(); // stop spawning new blocks
             OnLevelComplete();
             return;
         }
@@ -275,9 +253,6 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Called when level is completed (target reached)
-    /// </summary>
     private void OnLevelComplete()
     {
         Debug.Log("Level Complete! Target score reached!");
@@ -285,26 +260,17 @@ public class LevelManager : MonoBehaviour
         EventManager.Instance.TriggerWin();
     }
 
-    /// <summary>
-    /// Called when level is failed (no moves left)
-    /// </summary>
     private void OnLevelFailed()
     {
         Debug.Log("Level Failed! No moves left!");
         EventManager.Instance.TriggerFail();
     }
 
-    /// <summary>
-    /// Called when board is stable (no more animations)
-    /// </summary>
     private void OnBoardStable()
     {
         Debug.Log("Board is stable");
     }
 
-    /// <summary>
-    /// Called when deadlock is detected
-    /// </summary>
     private void OnDeadlock()
     {
         Debug.Log("Deadlock detected! No valid moves available.");
@@ -318,21 +284,18 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        // Track elapsed time
+        // track elapsed time
         if (board != null && !board.IsAnimating)
         {
             elapsedTime += Time.deltaTime;
         }
     }
 
-    /// <summary>
-    /// Load a preset example configuration
-    /// </summary>
     [Button("Load Example 1 (10x10, 6 colors)")]
     [FoldoutGroup("Manual Settings")]
     private void LoadExample1()
     {
-        currentLevelData = null; // Clear level data to use manual settings
+        currentLevelData = null; // clear level data to use manual settings
         rows = 10;
         columns = 10;
         colorCount = 6;
@@ -348,7 +311,7 @@ public class LevelManager : MonoBehaviour
     [FoldoutGroup("Manual Settings")]
     private void LoadExample2()
     {
-        currentLevelData = null; // Clear level data to use manual settings
+        currentLevelData = null; // clear level data to use manual settings
         rows = 5;
         columns = 8;
         colorCount = 4;
@@ -360,9 +323,6 @@ public class LevelManager : MonoBehaviour
             InitializeLevel();
     }
 
-    /// <summary>
-    /// Get icon variant description for UI
-    /// </summary>
     public string GetIconVariantDescription(int groupSize)
     {
         if (groupSize > thresholdC)

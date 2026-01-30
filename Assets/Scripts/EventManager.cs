@@ -5,14 +5,14 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance { get; private set; }
 
-    // Events
+    // events
     public event Action OnLevelStart;
     public event Action OnLevelRestart;
     // public event Action OnLevelComplete;
     public event Action OnWin;
     public event Action OnFail;
 
-    // Board Events
+    // board Events
     public event Action<int> OnBlocksBlasted;
     public event Action OnBoardStable;
     public event Action OnDeadlock;
@@ -30,7 +30,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    // Trigger Methods
+    // trigger Methods
     public void TriggerLevelStart()
     {
         OnLevelStart?.Invoke();

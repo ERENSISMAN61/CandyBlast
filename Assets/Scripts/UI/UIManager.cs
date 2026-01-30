@@ -14,10 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI groupInfoText;
     [FoldoutGroup("UI References")]
     [SerializeField] private GameObject deadlockPanel;
-    [FoldoutGroup("UI References")]
-    [SerializeField] private Button shuffleButton;
-    [FoldoutGroup("UI References")]
-    [SerializeField] private Button restartButton;
+
 
     [FoldoutGroup("Settings")]
     [SerializeField] private Board board;
@@ -67,12 +64,9 @@ public class UIManager : MonoBehaviour
 
 
 
-        // Setup buttons
-        if (shuffleButton != null)
-            shuffleButton.onClick.AddListener(OnShuffleClicked);
 
-        if (restartButton != null)
-            restartButton.onClick.AddListener(OnRestartClicked);
+
+
 
         if (deadlockPanel != null)
             deadlockPanel.SetActive(false);
@@ -94,11 +88,9 @@ public class UIManager : MonoBehaviour
             EventManager.Instance.OnBoardStable -= OnBoardStable;
         }
 
-        if (shuffleButton != null)
-            shuffleButton.onClick.RemoveListener(OnShuffleClicked);
 
-        if (restartButton != null)
-            restartButton.onClick.RemoveListener(OnRestartClicked);
+
+
     }
 
     public void PlayButton()
@@ -172,10 +164,10 @@ public class UIManager : MonoBehaviour
         if (restartButtonClicked)
             return;
         restartButtonClicked = true;
-        // Hide all panels
+        // hide all panels
         HideAllPanels();
 
-        // Restart level
+        // restart level
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.RestartLevel();
@@ -231,11 +223,11 @@ public class UIManager : MonoBehaviour
 
         if (movesText != null && levelManager != null)
         {
-            // Show remaining moves if limited, otherwise show total moves made
+            // show remaining moves if limited, otherwise show total moves made
             if (levelManager.CurrentLevel != null && levelManager.CurrentLevel.MaxMoves > 0)
                 movesText.text = $"{levelManager.RemainingMoves}";
             else
-                movesText.text = "∞"; // Unlimited moves
+                movesText.text = "∞"; // unlimited moves
 
             movesText.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f).SetEase(Ease.OutBack);
         }
@@ -246,28 +238,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void OnShuffleClicked()
-    {
-        if (board != null && !board.IsAnimating)
-        {
-            board.ShuffleBoard();
-            if (deadlockPanel != null)
-                deadlockPanel.SetActive(false);
-        }
-    }
 
-    private void OnRestartClicked()
-    {
-        if (levelManager != null)
-        {
-            levelManager.RestartLevel();
-        }
-
-        if (deadlockPanel != null)
-            deadlockPanel.SetActive(false);
-
-        UpdateUI();
-    }
 
 
 }

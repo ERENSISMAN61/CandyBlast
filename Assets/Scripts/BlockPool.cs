@@ -1,11 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-/// <summary>
-/// Object pooling system for blocks
-/// Memory optimization: Reuses blocks instead of instantiate/destroy
-/// CPU optimization: Reduces GC pressure
-/// </summary>
 public class BlockPool : MonoBehaviour
 {
     [SerializeField] private Block blockPrefab;
@@ -15,7 +10,7 @@ public class BlockPool : MonoBehaviour
     private Queue<Block> availableBlocks = new Queue<Block>();
     private List<Block> activeBlocks = new List<Block>();
 
-    // Reusable list to avoid GC during ClearAll
+    // reusable list to avoid GC during ClearAll
     private List<Block> tempBlocksList = new List<Block>();
 
     private void Awake()
@@ -23,16 +18,13 @@ public class BlockPool : MonoBehaviour
         if (poolParent == null)
             poolParent = transform;
 
-        // Pre-warm pool
+        // pre-warm pool
         for (int i = 0; i < initialPoolSize; i++)
         {
             CreateNewBlock();
         }
     }
 
-    /// <summary>
-    /// Get block from pool or create new one
-    /// </summary>
     public Block GetBlock()
     {
         Block block;
@@ -51,17 +43,14 @@ public class BlockPool : MonoBehaviour
         return block;
     }
 
-    /// <summary>
-    /// Return block to pool
-    /// </summary>
     public void ReturnBlock(Block block)
     {
         if (block == null) return;
 
-        // Reset before deactivating to ensure clean state
+        // reset before deactivating to ensure clean state
         block.ResetBlock();
 
-        // Reset transform to default position
+        // reset transform to default position
         block.transform.localPosition = Vector3.zero;
         block.transform.localScale = Vector3.one;
 
@@ -72,9 +61,6 @@ public class BlockPool : MonoBehaviour
         availableBlocks.Enqueue(block);
     }
 
-    /// <summary>
-    /// Return multiple blocks at once
-    /// </summary>
     public void ReturnBlocks(List<Block> blocks)
     {
         foreach (var block in blocks)
@@ -83,12 +69,9 @@ public class BlockPool : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Clear all active blocks
-    /// </summary>
     public void ClearAll()
     {
-        // Reuse temp list to avoid allocation
+        // reuse temp list to avoid allocation
         tempBlocksList.Clear();
         tempBlocksList.AddRange(activeBlocks);
 
@@ -106,9 +89,6 @@ public class BlockPool : MonoBehaviour
         return block;
     }
 
-    /// <summary>
-    /// Get pool statistics for debugging
-    /// </summary>
     public string GetPoolStats()
     {
         return $"Active: {activeBlocks.Count}, Available: {availableBlocks.Count}, Total: {activeBlocks.Count + availableBlocks.Count}";

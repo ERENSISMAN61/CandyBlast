@@ -2,10 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
-/// <summary>
-/// Manages all block sprites for different colors and variants
-/// Memory efficient: Loads sprites once and reuses references
-/// </summary>
 [CreateAssetMenu(fileName = "SpriteManager", menuName = "CandyBlast/Sprite Manager")]
 public class SpriteManager : ScriptableObject
 {
@@ -22,7 +18,6 @@ public class SpriteManager : ScriptableObject
     [Title("Block Sprites")]
     [SerializeField] private List<ColorSprites> colorSprites = new List<ColorSprites>();
 
-    // Cache for fast lookup - CPU optimization
     private Dictionary<BlockType, ColorSprites> spriteCache;
 
     private void OnEnable()
@@ -42,10 +37,6 @@ public class SpriteManager : ScriptableObject
         }
     }
 
-    /// <summary>
-    /// Get sprite for specific block type and variant
-    /// O(1) lookup time
-    /// </summary>
     public Sprite GetSprite(BlockType type, IconVariant variant)
     {
         if (spriteCache == null || spriteCache.Count == 0)
@@ -67,17 +58,11 @@ public class SpriteManager : ScriptableObject
         };
     }
 
-    /// <summary>
-    /// Get default sprite for a block type
-    /// </summary>
     public Sprite GetDefaultSprite(BlockType type)
     {
         return GetSprite(type, IconVariant.Default);
     }
 
-    /// <summary>
-    /// Determine which icon variant to use based on group size and thresholds
-    /// </summary>
     public IconVariant GetVariantForGroupSize(int groupSize, int thresholdA, int thresholdB, int thresholdC)
     {
         if (groupSize > thresholdC)
@@ -96,7 +81,7 @@ public class SpriteManager : ScriptableObject
     {
         colorSprites.Clear();
 
-        // Define the sprite names based on your texture files
+        // define the sprite names based on your texture files
         string[] colors = { "Blue", "Green", "Pink", "Purple", "Red", "Yellow" };
 
         foreach (string color in colors)
@@ -106,7 +91,7 @@ public class SpriteManager : ScriptableObject
                 blockType = (BlockType)System.Enum.Parse(typeof(BlockType), color)
             };
 
-            // Load sprites from Resources or Assets
+            // load sprites from Resources or Assets
             sprites.defaultSprite = Resources.Load<Sprite>($"Textures/{color}_Default");
             sprites.variantA = Resources.Load<Sprite>($"Textures/{color}_A");
             sprites.variantB = Resources.Load<Sprite>($"Textures/{color}_B");

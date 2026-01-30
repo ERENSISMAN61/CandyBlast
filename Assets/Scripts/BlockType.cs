@@ -1,8 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Defines block color types
-/// </summary>
 public enum BlockType
 {
     Blue = 0,
@@ -13,9 +10,6 @@ public enum BlockType
     Yellow = 5
 }
 
-/// <summary>
-/// Defines block icon variants based on group size
-/// </summary>
 public enum IconVariant
 {
     Default = 0,  // Less than A+1

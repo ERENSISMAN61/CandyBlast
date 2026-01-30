@@ -1,10 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
 
-/// <summary>
-/// Represents a single block in the grid
-/// Memory efficient: Uses struct-like data, object pooling ready
-/// </summary>
 public class Block : MonoBehaviour
 {
     [Header("Components")]
@@ -15,13 +11,13 @@ public class Block : MonoBehaviour
     [SerializeField] private float moveDuration = 0.3f;
     [SerializeField] private float scaleDuration = 0.2f;
 
-    // Block data
+    // block data
     public BlockType BlockType { get; private set; }
     public IconVariant CurrentVariant { get; private set; }
     public Vector2Int GridPosition { get; set; }
     public int GroupSize { get; private set; }
 
-    // State
+    // state
     public bool IsMoving { get; private set; }
     private Tween moveTween;
     private Tween scaleTween;
@@ -39,23 +35,15 @@ public class Block : MonoBehaviour
         scaleTween?.Kill();
         transform.DOKill();
     }
-    /// <summary>
-    /// Update sorting order based on grid position
-    /// Higher Y = Higher sorting order (drawn on top)
-    /// Performance: Only changes render order, not transform
-    /// </summary>
     private void UpdateSortingOrder()
     {
         if (spriteRenderer != null)
         {
-            // Y càng cao, sorting order càng yüksek (üstteki bloklar önde)
+            // y càng cao, sorting order càng yüksek (üstteki bloklar önde)
             spriteRenderer.sortingOrder = GridPosition.y;
         }
     }
 
-    /// <summary>
-    /// Initialize block with type and sprite
-    /// </summary>
     public void Initialize(BlockType type, Sprite sprite, Vector2Int gridPos)
     {
         BlockType = type;
@@ -66,50 +54,42 @@ public class Block : MonoBehaviour
         if (spriteRenderer != null)
             spriteRenderer.sprite = sprite;
 
-        // Set sorting order based on grid position
+        // set sorting order based on grid position
         UpdateSortingOrder();
 
-        // Start with small scale for pop-in effect during fall
+        // start with small scale for pop-in effect during fall
         transform.localScale = Vector3.one * 0.8f;
     }
 
-    /// <summary>
-    /// Update block icon based on group size
-    /// Performance: Only updates if variant actually changes
-    /// </summary>
     public void UpdateIcon(int groupSize, IconVariant variant, Sprite newSprite)
     {
         if (GroupSize == groupSize && CurrentVariant == variant)
-            return; // No change needed
+            return; // no change needed
 
         GroupSize = groupSize;
         CurrentVariant = variant;
 
         if (spriteRenderer != null && newSprite != null)
         {
-            // Quick scale animation for feedback
+            // quick scale animation for feedback
 
             transform.DOPunchScale(Vector3.one * 0.1f, 0.2f, 5, 0.5f);
             spriteRenderer.sprite = newSprite;
         }
     }
 
-    /// <summary>
-    /// Move block to new grid position
-    /// GPU optimized: Uses DOTween for smooth interpolation
-    /// </summary>
     public void MoveTo(Vector2Int newGridPos, Vector3 worldPos, System.Action onComplete = null)
     {
         GridPosition = newGridPos;
         IsMoving = true;
 
-        // Update sorting order for new position
+        // update sorting order for new position
         UpdateSortingOrder();
 
         moveTween?.Kill();
         scaleTween?.Kill();
 
-        // Move and scale to full size simultaneously for smooth spawn
+        // move and scale to full size simultaneously for smooth spawn
         moveTween = transform.DOMove(worldPos, moveDuration)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() =>
@@ -118,7 +98,7 @@ public class Block : MonoBehaviour
                 onComplete?.Invoke();
             });
 
-        // Scale to full size while moving (only if not already full scale)
+        // scale to full size while moving (only if not already full scale)
         if (transform.localScale != Vector3.one)
         {
             scaleTween = transform.DOScale(Vector3.one, moveDuration * 0.7f)
@@ -126,36 +106,29 @@ public class Block : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Blast animation and destruction
-    /// Memory efficient: Returns to pool instead of destroying
-    /// </summary>
     public void Blast(System.Action onComplete = null)
     {
-        // Kill any ongoing animations
+        // kill any ongoing animations
         moveTween?.Kill();
         scaleTween?.Kill();
 
-        // Play particle effect
+        // play particle effect
         if (blastParticle != null)
         {
             blastParticle.Play();
         }
 
-        // Scale down animation
+        // scale down animation
         scaleTween = transform.DOScale(Vector3.zero, scaleDuration)
             .SetEase(Ease.InBack)
             .OnComplete(() =>
             {
                 onComplete?.Invoke();
-                // Return to pool (will be implemented in BlockPool)
+                // return to pool (will be implemented in BlockPool)
                 gameObject.SetActive(false);
             });
     }
 
-    /// <summary>
-    /// Highlight block when part of selected group
-    /// </summary>
     public void SetHighlight(bool highlighted)
     {
         if (spriteRenderer != null)
@@ -164,12 +137,9 @@ public class Block : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Reset block state for pooling
-    /// </summary>
     public void ResetBlock()
     {
-        // Kill all tweens immediately
+        // kill all tweens immediately
         transform.DOKill();
         moveTween?.Kill();
         scaleTween?.Kill();
@@ -181,7 +151,7 @@ public class Block : MonoBehaviour
         if (spriteRenderer != null)
             spriteRenderer.color = Color.white;
 
-        // Reset transform completely
+        // reset transform completely
         transform.localScale = Vector3.one;
         transform.rotation = Quaternion.identity;
     }
