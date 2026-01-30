@@ -99,14 +99,14 @@ public class LevelManager : MonoBehaviour
         // configure board with current settings
         board.SetBoardParameters(GetCurrentRows(), GetCurrentColumns(), GetCurrentColorCount());
 
-
-        EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted; // unsubscribe first to avoid duplicates
-        EventManager.Instance.OnDeadlock -= OnDeadlock;
-        // EventManager.Instance.OnBoardStable -= OnBoardStable;
-
+        // CRITICAL: Always unsubscribe first to prevent memory leaks
+        UnsubscribeFromEvents();
+        
+        // Then subscribe
         EventManager.Instance.OnBlocksBlasted += OnBlocksBlasted;
         EventManager.Instance.OnDeadlock += OnDeadlock;
         // EventManager.Instance.OnBoardStable += OnBoardStable;
+        
         // initialize board
         board.InitializeBoard();
 
@@ -229,13 +229,24 @@ public class LevelManager : MonoBehaviour
     }
 
 
-    private void OnDestroy()
+    private void UnsubscribeFromEvents()
     {
-        if (board != null)
+        if (EventManager.Instance != null)
         {
             EventManager.Instance.OnBlocksBlasted -= OnBlocksBlasted;
             EventManager.Instance.OnDeadlock -= OnDeadlock;
             // EventManager.Instance.OnBoardStable -= OnBoardStable;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeFromEvents();
+        
+        // Cleanup board
+        if (board != null)
+        {
+            board.ClearBoard();
         }
     }
 }

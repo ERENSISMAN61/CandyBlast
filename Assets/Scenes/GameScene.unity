@@ -1656,6 +1656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 523226704}
   - component: {fileID: 523226705}
+  - component: {fileID: 523226706}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -1692,23 +1693,69 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevelData: {fileID: 0}
   allLevels:
-  - {fileID: 11400000, guid: b22798a48a8ab3c478c5d8f7148bc5d1, type: 2}
-  - {fileID: 11400000, guid: 3cd0aac79cf7f264e91eb0ef0eda86d3, type: 2}
-  - {fileID: 11400000, guid: 884ebcb8cae34434c9f6ba9f232a45fc, type: 2}
-  - {fileID: 11400000, guid: 768dac3ed78c0ba46a43b270a8ef3680, type: 2}
-  - {fileID: 11400000, guid: 5b0ba5fc210f4104c9b3ad139562f51a, type: 2}
-  - {fileID: 11400000, guid: f7b8dd06c9ade0f45856d901c2a13cdc, type: 2}
-  - {fileID: 11400000, guid: cb8726aff95462e408880f8f97d9ce70, type: 2}
-  - {fileID: 11400000, guid: 8681bed8c76f0144ead9c67c590f5cbb, type: 2}
-  - {fileID: 11400000, guid: dd6634a0f4c472342af546b24c4686e9, type: 2}
-  - {fileID: 11400000, guid: 7711ecce66ef1f943911c3f03bf6fb35, type: 2}
-  - {fileID: 11400000, guid: 49c2834232fb4e14e9770bbe9796c3c3, type: 2}
-  - {fileID: 11400000, guid: 2e546929f96471740967e849b853f045, type: 2}
-  - {fileID: 11400000, guid: fed82ee726cbb454eaec8a797a01fd43, type: 2}
-  - {fileID: 11400000, guid: c71b62f6680af1049b956c1ee0cd678e, type: 2}
-  - {fileID: 11400000, guid: 695f9c95e1d89b34bb67f223bd9f4265, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
+  - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
   startingLevelIndex: 0
   board: {fileID: 153077231}
+--- !u!114 &523226706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523226703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e397ca5e3a603549aab943e72a1b38a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableMemoryLeakValidation: 1
+  checkInterval: 5
+  logDetailedInfo: 1
+  trackObjectAllocations: 1
 --- !u!1 &587947307
 GameObject:
   m_ObjectHideFlags: 0

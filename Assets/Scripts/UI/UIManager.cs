@@ -49,6 +49,11 @@ public class UIManager : MonoBehaviour
     private bool nextButtonClicked = false;
     private bool restartButtonClicked = false;
 
+    // Cache values to avoid unnecessary text updates and mesh regeneration
+    private int cachedScore = -1;
+    private int cachedMoves = -1;
+    private int cachedLevel = -1;
+
     private void Start()
     {
         if (EventManager.Instance != null)
@@ -193,6 +198,11 @@ public class UIManager : MonoBehaviour
 
     private void OnLevelStart()
     {
+        // Reset cached values when new level starts
+        cachedScore = -1;
+        cachedMoves = -1;
+        cachedLevel = -1;
+
         UpdateUI();
     }
 
@@ -215,26 +225,48 @@ public class UIManager : MonoBehaviour
 
     private void UpdateUI()
     {
-
         if (scoreText != null && levelManager != null)
-            scoreText.text = $"{levelManager.RemainingTargetScore}";
-
-        scoreText.transform.DOPunchScale(Vector3.one * 0.2f, 0.2f).SetEase(Ease.OutBack);
+        {
+            int newScore = levelManager.RemainingTargetScore;
+            // Int comparison is much faster than string comparison
+            if (cachedScore != newScore)
+            {
+                cachedScore = newScore;
+                // SetText avoids boxing and unnecessary allocations
+                scoreText.SetText("{0}", newScore);
+                scoreText.transform.DOPunchScale(Vector3.one * 0.2f, 0.2f).SetEase(Ease.OutBack);
+            }
+        }
 
         if (movesText != null && levelManager != null)
         {
-            // show remaining moves if limited, otherwise show total moves made
-            if (levelManager.CurrentLevel != null && levelManager.CurrentLevel.MaxMoves > 0)
-                movesText.text = $"{levelManager.RemainingMoves}";
-            else
-                movesText.text = "∞"; // unlimited moves
+            // show remaining moves if limited, otherwise show -1 for unlimited
+            int newMoves = (levelManager.CurrentLevel != null && levelManager.CurrentLevel.MaxMoves > 0)
+                ? levelManager.RemainingMoves
+                : -1; // Use -1 as sentinel value for unlimited
 
-            movesText.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f).SetEase(Ease.OutBack);
+            if (cachedMoves != newMoves)
+            {
+                cachedMoves = newMoves;
+                // SetText with conditional avoids string allocation
+                if (newMoves >= 0)
+                    movesText.SetText("{0}", newMoves);
+                else
+                    movesText.text = "∞"; // Special character, use text property
+
+                movesText.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f).SetEase(Ease.OutBack);
+            }
         }
 
         if (groupInfoText != null && levelManager != null)
         {
-            groupInfoText.text = $"Level {levelManager.CurrentLevelIndex + 1}";
+            int newLevel = levelManager.CurrentLevelIndex + 1;
+            if (cachedLevel != newLevel)
+            {
+                cachedLevel = newLevel;
+                // SetText with format avoids string interpolation allocation
+                groupInfoText.SetText("Level {0}", newLevel);
+            }
         }
     }
 
