@@ -153,7 +153,7 @@ public class LevelManager : MonoBehaviour
     public IEnumerator PerformCleanup()
     {
 #if UNITY_EDITOR
-        Debug.Log($"<color=cyan>🗑 Auto cleanup triggered at level {CurrentLevelIndex + 1}</color>");
+        Debug.Log($"Auto cleanup triggered at level {CurrentLevelIndex + 1}");
 #endif
 
 

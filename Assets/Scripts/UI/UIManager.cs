@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject winMidPanel;
     [FoldoutGroup("Win Panel")]
     [SerializeField] private GameObject winText;
+    [FoldoutGroup("Win Panel")]
+    [SerializeField] private Button winButton;
     [FoldoutGroup("Fail Panel")]
     [SerializeField] private GameObject failPanel;
     [FoldoutGroup("Fail Panel")]
@@ -50,10 +52,12 @@ public class UIManager : MonoBehaviour
     private bool nextButtonClicked = false;
     private bool restartButtonClicked = false;
 
-    // Cache values to avoid unnecessary text updates and mesh regeneration
+
     private int cachedScore = -1;
     private int cachedMoves = -1;
     private int cachedLevel = -1;
+
+    private WaitForSeconds buttonAnimationWait = new WaitForSeconds(0.21f);
 
     private void Start()
     {
@@ -152,6 +156,17 @@ public class UIManager : MonoBehaviour
     private IEnumerator NextLevelSequence()
     {
 
+        if (winButton != null)
+        {
+            winButton.transform.DOScale(0.4f, 0.1f).OnComplete(() =>
+            {
+                winButton.transform.DOScale(0.5f, 0.1f);
+            });
+
+            yield return buttonAnimationWait;
+        }
+
+
         if (LevelManager.Instance != null && LevelManager.Instance.NeedsCleanup())
         {
             yield return LevelManager.Instance.PerformCleanup();
@@ -217,7 +232,7 @@ public class UIManager : MonoBehaviour
 
     private void OnLevelStart()
     {
-        // Reset cached values when new level starts
+
         cachedScore = -1;
         cachedMoves = -1;
         cachedLevel = -1;
@@ -247,11 +262,11 @@ public class UIManager : MonoBehaviour
         if (scoreText != null && levelManager != null)
         {
             int newScore = levelManager.RemainingTargetScore;
-            // Int comparison is much faster than string comparison
+
             if (cachedScore != newScore)
             {
                 cachedScore = newScore;
-                // SetText avoids boxing and unnecessary allocations
+
                 scoreText.SetText("{0}", newScore);
                 scoreText.transform.DOPunchScale(Vector3.one * 0.2f, 0.2f).SetEase(Ease.OutBack);
             }
@@ -259,19 +274,19 @@ public class UIManager : MonoBehaviour
 
         if (movesText != null && levelManager != null)
         {
-            // show remaining moves if limited, otherwise show -1 for unlimited
+
             int newMoves = (levelManager.CurrentLevel != null && levelManager.CurrentLevel.MaxMoves > 0)
                 ? levelManager.RemainingMoves
-                : -1; // Use -1 as sentinel value for unlimited
+                : -1;
 
             if (cachedMoves != newMoves)
             {
                 cachedMoves = newMoves;
-                // SetText with conditional avoids string allocation
+
                 if (newMoves >= 0)
                     movesText.SetText("{0}", newMoves);
                 else
-                    movesText.text = "∞"; // Special character, use text property
+                    movesText.text = "∞";
 
                 movesText.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f).SetEase(Ease.OutBack);
             }
@@ -283,7 +298,7 @@ public class UIManager : MonoBehaviour
             if (cachedLevel != newLevel)
             {
                 cachedLevel = newLevel;
-                // SetText with format avoids string interpolation allocation
+
                 groupInfoText.SetText("Level {0}", newLevel);
             }
         }
