@@ -1656,7 +1656,6 @@ GameObject:
   m_Component:
   - component: {fileID: 523226704}
   - component: {fileID: 523226705}
-  - component: {fileID: 523226706}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -1740,22 +1739,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ebf9c99e8352c2949b239b5eef4d450f, type: 2}
   startingLevelIndex: 0
   board: {fileID: 153077231}
---- !u!114 &523226706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 523226703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e397ca5e3a603549aab943e72a1b38a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enableMemoryLeakValidation: 1
-  checkInterval: 5
-  logDetailedInfo: 1
-  trackObjectAllocations: 1
 --- !u!1 &587947307
 GameObject:
   m_ObjectHideFlags: 0
@@ -5648,7 +5631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 1767151061860902516, guid: f07e8a04ffd8eec48b04811c93a5d413, type: 3}
-  initialPoolSize: 120
+  initialPoolSize: 210
   poolParent: {fileID: 2124605220}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

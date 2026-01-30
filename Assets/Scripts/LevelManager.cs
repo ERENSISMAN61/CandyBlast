@@ -101,12 +101,12 @@ public class LevelManager : MonoBehaviour
 
         // CRITICAL: Always unsubscribe first to prevent memory leaks
         UnsubscribeFromEvents();
-        
+
         // Then subscribe
         EventManager.Instance.OnBlocksBlasted += OnBlocksBlasted;
         EventManager.Instance.OnDeadlock += OnDeadlock;
         // EventManager.Instance.OnBoardStable += OnBoardStable;
-        
+
         // initialize board
         board.InitializeBoard();
 
@@ -142,6 +142,15 @@ public class LevelManager : MonoBehaviour
         {
             Debug.LogWarning("No levels available!");
             return;
+        }
+
+        // Periodic GC every 5 levels to prevent memory buildup
+        if ((CurrentLevelIndex + 1) % 5 == 0)
+        {
+            System.GC.Collect();
+#if UNITY_EDITOR
+            Debug.Log($"<color=cyan>🗑 Auto GC triggered at level {CurrentLevelIndex + 1}</color>");
+#endif
         }
 
         int nextIndex = (CurrentLevelIndex + 1) % allLevels.Length;
@@ -242,7 +251,7 @@ public class LevelManager : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeFromEvents();
-        
+
         // Cleanup board
         if (board != null)
         {
